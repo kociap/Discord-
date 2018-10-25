@@ -52,11 +52,14 @@ endif()
 
 # Source files
 set(DISCORDPP_SRC
+	source/driftuistyle.cpp
 	source/main.cpp
+	source/mainwindow.cpp
 )
 
 # Manuall list all .ui files so that Qt Creator lists them in the projects view
 set(UI_FILES
+	source/mainwindow.ui
 )
 
 # Other files one would want to edit that are not directly part of the SCE build but we want to appear in projects
