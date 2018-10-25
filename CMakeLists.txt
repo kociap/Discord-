@@ -52,7 +52,7 @@ endif()
 
 # Source files
 set(DISCORDPP_SRC
-	source/driftuistyle.cpp
+	source/main.cpp
 )
 
 # Manuall list all .ui files so that Qt Creator lists them in the projects view

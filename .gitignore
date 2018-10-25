@@ -33,7 +33,11 @@
 
 # IDE files
 *.user
+# VS
 *.sln
+*.vcxproj
+*.vcxproj.filters
+.vs
 
 # CMake files
 CMakeCache.txt
