@@ -88,3 +88,15 @@ script:
 after_script:
     # ccache stats
     - ccache -s
+
+after_success:
+    # Discord webhook
+    - wget https://raw.githubusercontent.com/DiscordHooks/travis-ci-discord-webhook/master/send.sh
+    - chmod +x send.sh
+    - ./send.sh success $DISCORD_WEBHOOK
+
+after_failure:
+    # Discord webhook
+    - wget https://raw.githubusercontent.com/DiscordHooks/travis-ci-discord-webhook/master/send.sh
+    - chmod +x send.sh
+    - ./send.sh failure $DISCORD_WEBHOOK
