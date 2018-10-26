@@ -1,4 +1,5 @@
 Language: Cpp
+Standard: Cpp11
 AccessModifierOffset: 0
 AlignAfterOpenBracket: Align
 AlignConsecutiveAssignments: false
@@ -18,7 +19,8 @@ BinPackArguments: true
 BreakBeforeBinaryOperators: false
 BreakBeforeBraces: Attach
 BreakBeforeTernaryOperators: false
-BreakConstructorInitializersBeforeComma: true
+BreakConstructorInitializers: BeforeColon
+BreakInheritanceList: BeforeColon
 #BreakStringLiterals: true
 ColumnLimit: 160
 CommentPragmas:  '^[^ ]'
@@ -32,7 +34,6 @@ IndentCaseLabels: true
 IndentWidth: 4
 IndentWrappedFunctionNames: false
 KeepEmptyLinesAtTheStartOfBlocks: false
-Language: Cpp
 MaxEmptyLinesToKeep: 1
 NamespaceIndentation: All
 PointerAlignment: Right
@@ -47,6 +48,5 @@ SpacesInAngles: false
 SpacesInCStyleCastParentheses: false
 SpacesInParentheses: false
 SpacesInSquareBrackets: false
-Standard: Cpp11
 TabWidth: 4
 UseTab: Always

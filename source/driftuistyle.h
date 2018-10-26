@@ -7,7 +7,15 @@
 #include <QPropertyAnimation>
 #include <initializer_list>
 
-enum UIColor { UICol_WindowBG, UICol_Border, UICol_Text, UICol_Highlight, UICol_ButtonBG, UICol_ButtonHoverBG, UICol_ButtonPressBG };
+enum class UIColor {
+    WindowBG,
+    Border,
+    Text,
+    Highlight,
+    ButtonBG,
+    ButtonHoverBG,
+    ButtonPressBG,
+};
 
 using UIPalette = QMap<UIColor, QBrush>;
 

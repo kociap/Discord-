@@ -29,13 +29,13 @@ UIPalette DriftUIStyle::buildDarkPalette() {
 	buttonPressedGradient.setColorAt(0.0, QColor(48, 48, 48));
 	buttonPressedGradient.setColorAt(1.0, QColor(64, 64, 64));
 
-	ret.insert(UICol_WindowBG, QColor(47, 47, 47));
-	ret.insert(UICol_Border, QColor(21, 21, 21));
-	ret.insert(UICol_Text, QColor(221, 221, 211));
-	ret.insert(UICol_Highlight, QColor(25, 94, 231));
-	ret.insert(UICol_ButtonBG, buttonGradient);
-	ret.insert(UICol_ButtonHoverBG, buttonHoverGradient);
-	ret.insert(UICol_ButtonPressBG, buttonPressedGradient);
+    ret.insert(UIColor::WindowBG, QColor(47, 47, 47));
+    ret.insert(UIColor::Border, QColor(21, 21, 21));
+    ret.insert(UIColor::Text, QColor(221, 221, 211));
+    ret.insert(UIColor::Highlight, QColor(25, 94, 231));
+    ret.insert(UIColor::ButtonBG, buttonGradient);
+    ret.insert(UIColor::ButtonHoverBG, buttonHoverGradient);
+    ret.insert(UIColor::ButtonPressBG, buttonPressedGradient);
 
 	return ret;
 }
@@ -47,9 +47,7 @@ UIPalette DriftUIStyle::buildLightPalette() {
 const UIPalette DriftUIStyle::Dark = buildDarkPalette();
 const UIPalette DriftUIStyle::Light = buildLightPalette();
 
-DriftUIStyle::DriftUIStyle(const UIPalette &palette)
-	: QCommonStyle()
-	, m_pal(palette) {}
+DriftUIStyle::DriftUIStyle(const UIPalette &palette) : QCommonStyle(), m_pal(palette) {}
 
 int DriftUIStyle::styleHint(StyleHint sh, const QStyleOption *opt, const QWidget *widget, QStyleHintReturn *hret) const {
 	switch (sh) {
