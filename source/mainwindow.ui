@@ -37,7 +37,7 @@
         </property>
        </item>
       </widget>
-      <widget class="QWidget" name="">
+      <widget class="QWidget" name="layoutWidget">
        <layout class="QVBoxLayout" name="verticalLayout">
         <item>
          <widget class="QTextEdit" name="textEdit"/>
@@ -57,14 +57,14 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>25</height>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menu_Menu">
     <property name="title">
-     <string>&amp;Menu</string>
+     <string>Menu</string>
     </property>
-    <addaction name="actionTodo"/>
+    <addaction name="actionTodo_2"/>
    </widget>
    <addaction name="menu_Menu"/>
   </widget>
@@ -73,6 +73,11 @@
    <property name="enabled">
     <bool>false</bool>
    </property>
+   <property name="text">
+    <string>Todo</string>
+   </property>
+  </action>
+  <action name="actionTodo_2">
    <property name="text">
     <string>Todo</string>
    </property>
