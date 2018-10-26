@@ -57,12 +57,10 @@ before_script:
     # print versions
     - g++ --version
     - clang++ --version
-    - protoc --version
     - cmake --version
     - ninja --version
     - gdb --version
     - ld --version
-    - clangd-6.0 --version
     - echo $PATH
     - $ASAN_SYMBOLIZER_PATH --version
     # debug stuff
