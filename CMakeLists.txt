@@ -50,6 +50,16 @@ if ("${CMAKE_CXX_COMPILER_ID}" MATCHES "GNU" OR "${CMAKE_CXX_COMPILER_ID}" MATCH
   endif()
 endif()
 
+# MSVC flags
+if(MSVC)
+  # warnings
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /W4")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /wd4710 /wd4711") # function inlining
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /wd4820") # bytes padding added
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /wd4625 /wd4626 /wd5026 /wd5027") # ctor implicitly deleted
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /wd4514") # unreferenced function removed
+endif()
+
 # Source files
 set(DISCORDPP_SRC
   ${CMAKE_SOURCE_DIR}/source/driftuistyle.cpp
