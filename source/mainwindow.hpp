@@ -1,6 +1,8 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include "authorizationview.hpp"
+
 #include <QMainWindow>
 
 namespace Ui {
@@ -10,12 +12,13 @@ namespace Ui {
 class MainWindow : public QMainWindow {
     Q_OBJECT
 
-    public:
+public:
     explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow() override;
 
-    private:
+private:
     Ui::MainWindow *ui;
+    AuthorizationView authorizationView;
 };
 
 #endif // MAINWINDOW_H

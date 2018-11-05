@@ -11,8 +11,9 @@ set(CMAKE_AUTOMOC ON)
 # Create code from a list of Qt designer ui files.
 set(CMAKE_AUTOUIC ON)
 
-# Find the QtWidgets library
+# Find the Qt libraries
 find_package(Qt5Widgets CONFIG REQUIRED)
+find_package(Qt5WebEngineWidgets CONFIG REQUIRED)
 
 #extra flags
 if ("${CMAKE_CXX_COMPILER_ID}" MATCHES "GNU" OR "${CMAKE_CXX_COMPILER_ID}" MATCHES "Clang")
@@ -65,6 +66,8 @@ set(DISCORDPP_SRC
   ${CMAKE_SOURCE_DIR}/source/driftuistyle.cpp
   ${CMAKE_SOURCE_DIR}/source/main.cpp
   ${CMAKE_SOURCE_DIR}/source/mainwindow.cpp
+  ${CMAKE_SOURCE_DIR}/source/authorizationview.cpp
+  ${CMAKE_SOURCE_DIR}/source/discord/apilinks.cpp
 )
 
 # Manuall list all .ui files so that Qt Creator lists them in the projects view
@@ -101,5 +104,6 @@ target_sources(${PROJECT_NAME} PUBLIC ${UI_FILES})
 # Link executable
 set(LIBS_TO_LINK
   Qt5::Widgets
+  Qt5::WebEngineWidgets
 )
 target_link_libraries(${PROJECT_NAME} ${LIBS_TO_LINK})
