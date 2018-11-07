@@ -9,10 +9,10 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 
     QString url(discord::url::authorization);
     // TODO add state to the request url
-    url += "?scope=connections%20identify%20guilds%20guilds.join%20gdm.join%20messages.read%20rpc%20rpc.api%20rpc.notifications.read";
+    url += "?scope=" + discord::auth::scope;
     url += "&response_type=code";
     url += "&redirect_uri" + discord::url::redirect;
-    url += "&client_id=" + discord::clientID;
+    url += "&client_id=" + discord::auth::clientID;
 
     authorizationView.load(QUrl(url));
     authorizationView.show();

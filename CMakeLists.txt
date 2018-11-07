@@ -15,6 +15,9 @@ set(CMAKE_AUTOUIC ON)
 find_package(Qt5Widgets CONFIG REQUIRED)
 find_package(Qt5WebEngineWidgets CONFIG REQUIRED)
 
+# Add rpp
+add_subdirectory(rpp)
+
 #extra flags
 if ("${CMAKE_CXX_COMPILER_ID}" MATCHES "GNU" OR "${CMAKE_CXX_COMPILER_ID}" MATCHES "Clang")
   #general warnings
@@ -49,6 +52,11 @@ if ("${CMAKE_CXX_COMPILER_ID}" MATCHES "GNU" OR "${CMAKE_CXX_COMPILER_ID}" MATCH
     set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -flto")
     set(CMAKE_EXE_LINKER_FLAGS_RELEASE "${CMAKE_EXE_LINKER_FLAGS_RELEASE} -flto")
   endif()
+  #disable warnings for generated files
+  set_source_files_properties(
+      ${PROJECT_NAME}_autogen/mocs_compilation.cpp
+      PROPERTIES COMPILE_FLAGS -w
+  )
 endif()
 
 # MSVC flags
@@ -105,5 +113,6 @@ target_sources(${PROJECT_NAME} PUBLIC ${UI_FILES})
 set(LIBS_TO_LINK
   Qt5::Widgets
   Qt5::WebEngineWidgets
+  rpp
 )
 target_link_libraries(${PROJECT_NAME} ${LIBS_TO_LINK})

@@ -4,8 +4,11 @@
 #include <QString>
 
 namespace discord {
-    QString const clientID("505720390820167690");
-    QString const clientSecret("Kw9ro2x46PtOUF2DpscyolxBL5SU_ySP");
+    namespace auth {
+        QString const clientID("505720390820167690");
+        QString const clientSecret("Kw9ro2x46PtOUF2DpscyolxBL5SU_ySP");
+        QString const scope("connections%20identify%20guilds%20guilds.join%20gdm.join%20messages.read%20rpc%20rpc.api%20rpc.notifications.read");
+    } // namespace auth
 
     namespace url {
         QString const authorization("https://discordapp.com/api/oauth2/authorize");
