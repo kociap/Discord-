@@ -33,7 +33,7 @@ before_install:
     - PACKAGES=${PACKAGES}"binutils "
     # Qt
     - sudo add-apt-repository -y ppa:beineri/opt-qt-5.10.1-trusty
-    - PACKAGES=${PACKAGES}"qt510base qtwebengine5-dev"
+    - PACKAGES=${PACKAGES}"qt510base qt510webengine"
     # Update sources
     - sudo apt-get update
 
