@@ -49,6 +49,11 @@ if ("${CMAKE_CXX_COMPILER_ID}" MATCHES "GNU" OR "${CMAKE_CXX_COMPILER_ID}" MATCH
     set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -flto")
     set(CMAKE_EXE_LINKER_FLAGS_RELEASE "${CMAKE_EXE_LINKER_FLAGS_RELEASE} -flto")
   endif()
+  #disable warnings for generated files
+  set_source_files_properties(
+      ${PROJECT_NAME}_autogen/mocs_compilation.cpp
+      PROPERTIES COMPILE_FLAGS -w
+  )
 endif()
 
 # MSVC flags
