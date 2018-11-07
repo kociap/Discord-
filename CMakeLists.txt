@@ -17,6 +17,7 @@ find_package(Qt5WebEngineWidgets CONFIG REQUIRED)
 
 # Add rpp
 add_subdirectory(rpp)
+set(BUILD_TESTING OFF) # Disable curl tests
 
 #extra flags
 if ("${CMAKE_CXX_COMPILER_ID}" MATCHES "GNU" OR "${CMAKE_CXX_COMPILER_ID}" MATCHES "Clang")
