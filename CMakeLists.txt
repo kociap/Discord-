@@ -17,7 +17,6 @@ find_package(Qt5WebEngineWidgets CONFIG REQUIRED)
 
 # Add rpp
 add_subdirectory(rpp)
-set(BUILD_TESTING OFF) # Disable curl tests
 
 #extra flags
 if ("${CMAKE_CXX_COMPILER_ID}" MATCHES "GNU" OR "${CMAKE_CXX_COMPILER_ID}" MATCHES "Clang")
@@ -79,7 +78,7 @@ set(DISCORDPP_SRC
   ${CMAKE_SOURCE_DIR}/source/discord/apilinks.cpp
 )
 
-# Manuall list all .ui files so that Qt Creator lists them in the projects view
+# Manually list all .ui files so that Qt Creator lists them in the projects view
 set(UI_FILES
   source/mainwindow.ui
 )
@@ -100,6 +99,8 @@ add_custom_target(MISC_FILES
 # Find includes in corresponding build directories
 if ("${CMAKE_CXX_COMPILER_ID}" MATCHES "GNU" OR "${CMAKE_CXX_COMPILER_ID}" MATCHES "Clang")
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -isystem ${CMAKE_CURRENT_SOURCE_DIR} -isystem ${CMAKE_CURRENT_BINARY_DIR}")
+elseif(MSVC)
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /I ${CMAKE_CURRENT_SOURCE_DIR}")
 endif()
 set(CMAKE_INCLUDE_CURRENT_DIR ON) #redundant, but required for Qt Creator to find generated files
 
