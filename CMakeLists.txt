@@ -16,6 +16,9 @@ find_package(Qt5Widgets CONFIG REQUIRED)
 find_package(Qt5WebEngineWidgets CONFIG REQUIRED)
 
 # Add rpp
+set(CMAKE_USE_OPENSSL ON)
+#set(OPENSSL_ROOT_DIR "C:\\Users\\An0num0us\\Documents\\builds\\openssl") Must set this manually. Toeger, help
+set(BUILD_SHARED_LIBS OFF)
 add_subdirectory(rpp)
 
 #extra flags

@@ -15,18 +15,15 @@ void AuthorizationView::onURLChanged(QUrl const &url) {
     if (url.toString(QUrl::RemoveQuery) == discord::url::redirect) {
         QUrlQuery query(url);
         if (query.hasQueryItem("code")) {
-            QString code = query.queryItemValue("code");
-            qDebug() << "Authorization successful! Code: " + code + "\n";
+            rpp::String code = query.queryItemValue("code").toStdString();
+            rpp::Request req(discord::url::token.toStdString());
+            rpp::Body body;
+            body.add({rpp::BodyItem{"client_id", discord::auth::clientID.toStdString()},
+                      rpp::BodyItem{"client_secret", discord::auth::clientSecret.toStdString()}, rpp::BodyItem{"grant_type", "authorization_code"},
+                      rpp::BodyItem{"code", code}, rpp::BodyItem{"redirect_uri", discord::url::redirect.toStdString()},
+                      rpp::BodyItem{"scope", discord::auth::scope.toStdString()}});
 
-            QString headers("");
-            QString requestData;
-            requestData += "client_id=" + discord::auth::clientID;
-            requestData += "&client_secret=" + discord::auth::clientSecret;
-            requestData += "&grant_type=authorization_code";
-            requestData += "&code=" + code;
-            requestData += "&redirect_uri=" + discord::url::redirect;
-            requestData += "&scope=" + discord::auth::scope;
-            rpp::Response res = rpp::post(discord::url::token.toStdString(), headers.toStdString(), requestData.toStdString());
+            rpp::Response res = req.post(body);
             qDebug() << "[" << res.status << "] " << QString::fromStdString(res.text);
         } else {
             // Handle errors
