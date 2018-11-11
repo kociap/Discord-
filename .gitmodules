@@ -1,3 +1,6 @@
 [submodule "rpp"]
 	path = rpp
 	url = https://github.com/kociap/rpp
+[submodule "json"]
+	path = json
+	url = https://github.com/nlohmann/json

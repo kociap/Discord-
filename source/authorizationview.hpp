@@ -3,14 +3,14 @@
 
 #include <QWebEngineView>
 
-class AuthorizationView : public QWebEngineView {
+class Authorization_View : public QWebEngineView {
     Q_OBJECT
 
 public:
-    AuthorizationView(QWidget *parent = nullptr);
+    Authorization_View(QWidget* parent = nullptr);
 
 private slots:
-    void onURLChanged(QUrl const &);
+    void on_url_changed(QUrl const&);
 };
 
 #endif // !AUTHORIZATIONVIEW_HPP

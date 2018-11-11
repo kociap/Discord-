@@ -15,10 +15,12 @@ set(CMAKE_AUTOUIC ON)
 find_package(Qt5Widgets CONFIG REQUIRED)
 find_package(Qt5WebEngineWidgets CONFIG REQUIRED)
 
-# Add rpp
-set(CMAKE_USE_OPENSSL ON) # OPENSSL_ROOT_DIR must be set manually
-set(BUILD_SHARED_LIBS OFF) # build curl as static lib
+# Add submodules
+set(CMAKE_USE_OPENSSL CACHE BOOL ON) # OPENSSL_ROOT_DIR must be set manually
+set(BUILD_SHARED_LIBS CACHE BOOL OFF) # build submodules as static libs
+set(BUILD_TESTING CACHE BOOL OFF)
 add_subdirectory(rpp)
+add_subdirectory(json)
 
 #extra flags
 if ("${CMAKE_CXX_COMPILER_ID}" MATCHES "GNU" OR "${CMAKE_CXX_COMPILER_ID}" MATCHES "Clang")
@@ -73,11 +75,14 @@ endif()
 
 # Source files
 set(DISCORDPP_SRC
-  ${CMAKE_SOURCE_DIR}/source/driftuistyle.cpp
-  ${CMAKE_SOURCE_DIR}/source/main.cpp
-  ${CMAKE_SOURCE_DIR}/source/mainwindow.cpp
-  ${CMAKE_SOURCE_DIR}/source/authorizationview.cpp
-  ${CMAKE_SOURCE_DIR}/source/discord/apilinks.cpp
+  source/driftuistyle.cpp
+  source/main.cpp
+  source/mainwindow.cpp
+  source/authorizationview.cpp
+  source/discord/auth.cpp
+  source/discord/client.cpp
+  source/discord/user.cpp
+  #source/discord/guild.cpp
 )
 
 # Manually list all .ui files so that Qt Creator lists them in the projects view
@@ -118,5 +123,6 @@ set(LIBS_TO_LINK
   Qt5::Widgets
   Qt5::WebEngineWidgets
   rpp
+  nlohmann_json::nlohmann_json
 )
 target_link_libraries(${PROJECT_NAME} ${LIBS_TO_LINK})
