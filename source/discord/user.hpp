@@ -6,12 +6,12 @@
 
 namespace discord {
     struct User {
+        String id;
         String username;
         String discriminator;
         String avatar;
         String locale;
         String email;
-        uint64 id;
         bool bot;
         bool mfa_enabled;
         bool verified;

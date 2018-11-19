@@ -21,6 +21,7 @@ set(BUILD_SHARED_LIBS CACHE BOOL OFF) # build submodules as static libs
 set(BUILD_TESTING CACHE BOOL OFF)
 add_subdirectory(rpp)
 add_subdirectory(json)
+add_subdirectory(websocketpp)
 
 #extra flags
 if ("${CMAKE_CXX_COMPILER_ID}" MATCHES "GNU" OR "${CMAKE_CXX_COMPILER_ID}" MATCHES "Clang")
@@ -66,7 +67,9 @@ endif()
 # MSVC flags
 if(MSVC)
   # warnings
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /W4")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /W3")
+  # Prevent spam in warning levels higher than 3
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /wd4127") # conditional expression is constant
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /wd4710 /wd4711") # function inlining
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /wd4820") # bytes padding added
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /wd4625 /wd4626 /wd5026 /wd5027") # ctor implicitly deleted
@@ -79,10 +82,15 @@ set(DISCORDPP_SRC
   source/main.cpp
   source/mainwindow.cpp
   source/authorizationview.cpp
+  source/discordclient.cpp
   source/discord/auth.cpp
   source/discord/client.cpp
   source/discord/user.cpp
-  #source/discord/guild.cpp
+  source/discord/guild.cpp
+  source/discord/channel.cpp
+  source/discord/gateway.cpp
+  source/discord/cache.cpp
+  source/discord/authorizationdata.cpp
 )
 
 # Manually list all .ui files so that Qt Creator lists them in the projects view
@@ -114,6 +122,9 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON) #redundant, but required for Qt Creator to fin
 # add executable
 add_executable(${PROJECT_NAME} ${DISCORDPP_SRC})
 target_sources(${PROJECT_NAME} PUBLIC ${UI_FILES})
+
+# Add certain include dirs manually because compiler can't find them
+target_include_directories(${PROJECT_NAME} SYSTEM PUBLIC websocketpp asio/asio/include)
 
 # add generated include directory
 #target_compile_options(${PROJECT_NAME} PRIVATE -isystem ${PROJECT_NAME}_autogen/include)
