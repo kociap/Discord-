@@ -1,7 +1,7 @@
 #include "client.hpp"
 
-#include "auth.hpp"
 #include "opcodes.hpp"
+#include "urls.hpp"
 
 #include "nlohmann/json.hpp"
 #include "rpp/rpp.hpp"

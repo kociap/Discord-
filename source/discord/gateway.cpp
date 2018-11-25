@@ -1,8 +1,8 @@
 #include "gateway.hpp"
 
-#include "auth.hpp"
 #include "nlohmann/json.hpp"
 #include "rpp/rpp.hpp"
+#include "urls.hpp"
 
 namespace discord {
     namespace gateway {

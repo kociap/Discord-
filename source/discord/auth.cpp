@@ -1,4 +1,5 @@
 #include "auth.hpp"
+#include "urls.hpp"
 
 #include "nlohmann/json.hpp"
 #include "rpp/rpp.hpp"
