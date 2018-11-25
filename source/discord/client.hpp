@@ -10,8 +10,10 @@
 #define _WEBSOCKETPP_CPP11_RANDOM_DEVICE_
 #define _WEBSOCKETPP_CPP11_TYPE_TRAITS_
 #define ASIO_STANDALONE
+#pragma warning(push, 0) // Disable all warnings from websocketpp and asio
 #include "websocketpp/client.hpp"
 #include "websocketpp/config/asio_client.hpp"
+#pragma warning(pop)
 
 #include <thread>
 #include <vector>
@@ -37,8 +39,8 @@ namespace discord {
             connection_failed,
         };
 
-        Client(String const& token, String const& refresh_token);
-        Client(String&& token, String&& refresh_token);
+        Client(String const& token);
+        Client(String&& token);
         virtual ~Client();
 
         void connect(String const& url);
@@ -70,12 +72,13 @@ namespace discord {
     private:
         String gateway;
         String token;
-        String refresh_token;
         std::shared_ptr<std::thread> thread = nullptr;
         websocketpp::connection_hdl handle;
         uint32 heartbeat_interval = 0;
+        bool heartbeat_ack = false;
 
         void set_timer(uint32 time, std::function<void()> callback);
+        void identify();
         void heartbeat();
 
         void websocket_message_handler(websocketpp::connection_hdl handle, Websocket::message_ptr msg);

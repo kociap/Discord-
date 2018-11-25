@@ -7,6 +7,7 @@
 namespace discord {
     struct Channel {
         String id;
+        String name;
 
         static Channel from_json(nlohmann::json const&);
     };

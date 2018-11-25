@@ -81,7 +81,6 @@ set(DISCORDPP_SRC
   source/driftuistyle.cpp
   source/main.cpp
   source/mainwindow.cpp
-  source/authorizationview.cpp
   source/discordclient.cpp
   source/discord/auth.cpp
   source/discord/client.cpp

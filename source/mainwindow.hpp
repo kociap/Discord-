@@ -1,7 +1,6 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include "authorizationview.hpp"
 #include "discordclient.hpp"
 
 #include <QMainWindow>
@@ -21,7 +20,6 @@ public:
 
 private:
     Ui::MainWindow* ui;
-    Authorization_View authorization_view;
 };
 
 #endif // MAINWINDOW_H

@@ -1,5 +1,5 @@
 #include <QApplication>
-
+//#define _SILENCE_CXX17_ALLOCATOR_VOID_DEPRECATION_WARNING // Doesn't silence STL4009 warnings caused by dependencies
 #include "driftuistyle.h"
 #include "mainwindow.hpp"
 

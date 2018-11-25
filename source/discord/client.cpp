@@ -20,8 +20,8 @@ namespace discord {
 
 // Client
 namespace discord {
-    Client::Client(String const& token, String const& refresh_token) : gateway(), token(token), refresh_token(refresh_token) {}
-    Client::Client(String&& token, String&& refresh_token) : gateway(), token(std::move(token)), refresh_token(std::move(refresh_token)) {}
+    Client::Client(String const& token) : gateway(), token(token) {}
+    Client::Client(String&& token) : gateway(), token(std::move(token)) {}
 
     Client::~Client() {
         if (thread) {
@@ -30,7 +30,7 @@ namespace discord {
     }
 
     User Client::get_me() {
-        rpp::Headers headers({{"Authorization", "Bearer " + token}});
+        rpp::Headers headers({{"Authorization", token}});
         rpp::Request req;
         req.set_headers(headers);
         //        req.set_verbose(true);
@@ -41,7 +41,7 @@ namespace discord {
     }
 
     Guilds Client::get_my_guilds() {
-        rpp::Headers headers({{"Authorization", "Bearer " + token}});
+        rpp::Headers headers({{"Authorization", token}});
         rpp::Request req;
         req.set_headers(headers);
         //        req.set_verbose(true);
@@ -53,7 +53,7 @@ namespace discord {
     }
 
     Channels Client::get_guild_channels(Snowflake const& guild_id) {
-        rpp::Headers headers({{"Authorization", "Bearer " + token}});
+        rpp::Headers headers({{"Authorization", token}});
         rpp::Request req;
         req.set_headers(headers);
         //        req.set_verbose(true);
@@ -67,7 +67,7 @@ namespace discord {
     void Client::send_message(Snowflake const& channel_id, String const& message) {
         rpp::Body body;
         body.append({{"content", message}});
-        rpp::Headers headers({{"Authorization", "Bearer " + token}});
+        rpp::Headers headers({{"Authorization", token}});
         rpp::Request req;
         req.set_headers(headers);
         //        req.set_verbose(true);
@@ -112,9 +112,13 @@ namespace discord {
         int opcode = parsed_msg.at("op");
         if (opcode == opcodes::gateway::hello) {
             heartbeat_interval = parsed_msg.at("d").at("heartbeat_interval");
+            identify();
             heartbeat();
 
-            qDebug() << "[opcode 10] Hello received from Discord\n" << QString::fromStdString(msg->get_payload());
+            qDebug() << "[opcode 10] Hello received from Discord\n" << QString::fromStdString(msg->get_payload()) << "\n";
+        } else if (opcode == opcodes::gateway::heartbeat_ack) {
+            heartbeat_ack = true;
+            qDebug() << "[opcode 11] Ack received from Discord\n";
         } else {
             on_websocket_message(handle, msg);
         }
@@ -136,8 +140,18 @@ namespace discord {
         });
     }
 
+    void Client::identify() {
+        websocket_send(handle, "{\"op\":2,\"d\":{\"token\":\"" + token + "\",\"properties\":{\"os\":\"Windows\"}}}");
+    }
+
     void Client::heartbeat() {
-        websocket_send(handle, "{\"op\":1,\"d\":null");
+        qDebug() << "heartbeat";
+        if (!heartbeat_ack) {
+            // TODO
+            // No ack, terminate connection
+        }
+
+        websocket_send(handle, "{\"op\":1,\"d\":null}");
         set_timer(heartbeat_interval, [this]() { heartbeat(); });
     }
 
@@ -155,7 +169,7 @@ namespace discord {
         qDebug() << "websocket error: " << QString::fromStdString(message);
     }
     void Client::on_websocket_message(websocketpp::connection_hdl handle, websocketpp::connection<websocketpp::config::asio_tls_client>::message_ptr msg) {
-        qDebug() << QString::fromStdString(msg->get_payload());
+        qDebug() << "Websocket message:" << QString::fromStdString(msg->get_payload());
     }
 
 } // namespace discord
