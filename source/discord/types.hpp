@@ -3,6 +3,8 @@
 
 #include "rpp/string.hpp"
 
+#include <vector>
+
 namespace discord {
     using int32 = int;
     using uint32 = unsigned int;
@@ -11,6 +13,21 @@ namespace discord {
     using String = rpp::String;
     // Unique id
     using Snowflake = String;
+    using Snowflakes = std::vector<Snowflake>;
+
+    enum class Status {
+        online,
+        idle,
+        do_not_disturb,
+        offline,
+        unchanged,
+    };
+
+    enum class Activity_Type {
+        game,
+        streaming,
+        listening,
+    };
 } // namespace discord
 
 #endif // !DISCORD_TYPES_HPP

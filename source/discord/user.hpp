@@ -5,8 +5,9 @@
 #include "types.hpp"
 
 namespace discord {
+    // May be partial, only id is guaranteed to be filled
     struct User {
-        String id;
+        Snowflake id;
         String username;
         String discriminator;
         String avatar;

@@ -9,8 +9,6 @@ namespace Ui {
     class MainWindow;
 }
 
-extern Discord_Client* client; // Terrible hack
-
 class MainWindow : public QMainWindow {
     Q_OBJECT
 
@@ -20,6 +18,7 @@ public:
 
 private:
     Ui::MainWindow* ui;
+    Discord_Client* client;
 };
 
 #endif // MAINWINDOW_H

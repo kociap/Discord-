@@ -24,21 +24,6 @@
        <property name="styleSheet">
         <string notr="true">background-color: rgb(49, 49, 49);</string>
        </property>
-       <item>
-        <property name="text">
-         <string>An0num0us</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>kepler0</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>Toeger</string>
-        </property>
-       </item>
       </widget>
       <widget class="QWidget" name="layoutWidget">
        <layout class="QVBoxLayout" name="verticalLayout">

@@ -13,6 +13,11 @@ namespace discord {
         // GET
         String const my_guilds("https://discordapp.com/api/users/@me/guilds");
         // GET
+        // Array of Relationship objects
+        // [ { type, id, user { username, discriminator, id, avatar } } ]
+        //
+        // type:
+        //     1 - friends
         String const relationships("https://discordapp.com/api/v6/users/@me/relationships");
         // GET
         String const gateway("https://discordapp.com/api/gateway");

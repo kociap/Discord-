@@ -6,11 +6,13 @@
 
 namespace discord {
     struct Channel {
-        String id;
+        Snowflake id;
         String name;
 
         static Channel from_json(nlohmann::json const&);
     };
+
+    using Channels = std::vector<Channel>;
 
     void from_json(nlohmann::json const&, Channel&);
 } // namespace discord

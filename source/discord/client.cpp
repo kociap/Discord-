@@ -8,6 +8,8 @@
 #include "websocketpp/connection.hpp"
 
 #include <QDebug>
+#include <fstream>
+#include <map>
 
 // Timer
 namespace discord {
@@ -20,8 +22,8 @@ namespace discord {
 
 // Client
 namespace discord {
-    Client::Client(String const& token) : gateway(), token(token) {}
-    Client::Client(String&& token) : gateway(), token(std::move(token)) {}
+    Client::Client(String const& token) : gateway(), token(token), heartbeat_timer([]() {}) {}
+    Client::Client(String&& token) : gateway(), token(std::move(token)), heartbeat_timer([]() {}) {}
 
     Client::~Client() {
         if (thread) {
@@ -50,6 +52,17 @@ namespace discord {
         nlohmann::json json = nlohmann::json::parse(res.text);
         Guilds guilds = json;
         return guilds;
+    }
+
+    Relationships Client::get_relationships() {
+        rpp::Headers headers({{"authorization", token}});
+        rpp::Request req;
+        req.set_headers(headers);
+        req.set_verify_ssl(false);
+        rpp::Response res = req.get(url::relationships);
+        nlohmann::json json = nlohmann::json::parse(res.text);
+        Relationships rels = json;
+        return rels;
     }
 
     Channels Client::get_guild_channels(Snowflake const& guild_id) {
@@ -87,39 +100,51 @@ namespace discord {
 
         websocket.init_asio();
         websocket.set_message_handler([this](websocketpp::connection_hdl handle, Websocket::message_ptr msg) -> void {
-            websocket_message_handler(handle, msg); // force formatting
+            websocket_message_handler(handle, msg); // force clang to format this line properly
         });
 
         websocketpp::lib::error_code code;
         Websocket::connection_ptr connection = websocket.get_connection(url, code);
         if (code) {
             on_websocket_error(Websocket_Error::connection_failed, code.message());
+            // Let outside know it's not connected maybe?
             return;
         }
 
         handle = connection->get_handle();
         websocket.connect(connection);
         thread.reset(new std::thread([this]() { websocket.run(); }));
+        on_connect();
     }
 
-    void Client::disconnect() {
-        // TODO implement
-        //        websocket.close()
+    void Client::disconnect(uint32 code, String const& reason) {
+        heartbeat_timer.cancel();
+        websocket.close(handle, code, reason);
+        on_disconnect();
     }
 
     void Client::websocket_message_handler(websocketpp::connection_hdl handle, Websocket::message_ptr msg) {
         nlohmann::json parsed_msg = nlohmann::json::parse(msg->get_payload());
-        int opcode = parsed_msg.at("op");
+        int opcode = (parsed_msg.count("op") == 1 ? parsed_msg.at("op").get<int>() : -1);
         if (opcode == opcodes::gateway::hello) {
-            heartbeat_interval = parsed_msg.at("d").at("heartbeat_interval");
+            heartbeat_interval = parsed_msg.at("d").at("heartbeat_interval").get<uint32>();
             identify();
             heartbeat();
-
-            qDebug() << "[opcode 10] Hello received from Discord\n" << QString::fromStdString(msg->get_payload()) << "\n";
         } else if (opcode == opcodes::gateway::heartbeat_ack) {
             heartbeat_ack = true;
-            qDebug() << "[opcode 11] Ack received from Discord\n";
+        } else if (opcode == opcodes::gateway::dispatch) {
+            String type = parsed_msg.at("t").get<String>();
+            if (type == "READY") {
+                on_ready(msg->get_payload());
+            } else if (type == "PRESENCE_UPDATE") {
+                qDebug() << QString::fromStdString(msg->get_payload());
+            } else if (type == "TYPING_START") {
+            } else if (type == "MESSAGE_CREATE") {
+                qDebug() << QString::fromStdString(msg->get_payload());
+                on_message(Message::from_json(parsed_msg.at("d")));
+            }
         } else {
+            // Unknown opcode
             on_websocket_message(handle, msg);
         }
     }
@@ -130,7 +155,7 @@ namespace discord {
         // TODO add error handling
     }
 
-    void Client::set_timer(uint32 time, std::function<void()> callback) {
+    Timer Client::set_timer(uint32 time, std::function<void()> callback) {
         Websocket::timer_ptr timer = websocket.set_timer(time, [callback](websocketpp::lib::error_code const& code) {
             if (code == websocketpp::transport::error::operation_aborted) {
                 return;
@@ -138,6 +163,8 @@ namespace discord {
 
             callback();
         });
+
+        return Timer([timer]() { timer->cancel(); });
     }
 
     void Client::identify() {
@@ -151,19 +178,21 @@ namespace discord {
             // No ack, terminate connection
         }
 
+        heartbeat_ack = false;
         websocket_send(handle, "{\"op\":1,\"d\":null}");
-        set_timer(heartbeat_interval, [this]() { heartbeat(); });
+        on_heartbeat();
+        heartbeat_timer = set_timer(heartbeat_interval, [this]() { heartbeat(); });
     }
 
     // Discord events
-    void Client::on_message() {}
+    void Client::on_message(Message const&) {}
     void Client::on_reaction() {}
+    void Client::on_presence_update() {}
 
     // Websocket events
-    void Client::on_heartbeat() {
-        qDebug() << "heartbeat";
-    }
+    void Client::on_heartbeat() {}
     void Client::on_connect() {}
+    void Client::on_ready(String const&) {}
     void Client::on_disconnect() {}
     void Client::on_websocket_error(Websocket_Error error, String const& message) {
         qDebug() << "websocket error: " << QString::fromStdString(message);

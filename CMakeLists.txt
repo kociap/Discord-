@@ -89,7 +89,10 @@ set(DISCORDPP_SRC
   source/discord/channel.cpp
   source/discord/gateway.cpp
   source/discord/cache.cpp
-  source/discord/authorizationdata.cpp
+  source/discord/relationship.cpp
+  source/discord/message.cpp
+  source/discord/presence.cpp
+  source/discord/activity.cpp
 )
 
 # Manually list all .ui files so that Qt Creator lists them in the projects view

@@ -3,6 +3,8 @@
 
 #include "channel.hpp"
 #include "guild.hpp"
+#include "message.hpp"
+#include "relationship.hpp"
 #include "rpp/string.hpp"
 #include "types.hpp"
 #include "user.hpp"
@@ -19,9 +21,6 @@
 #include <vector>
 
 namespace discord {
-    using Channels = std::vector<Channel>;
-    using Guilds = std::vector<Guild>;
-
     class Timer {
     public:
         using Stop_Function = std::function<void()>;
@@ -44,23 +43,26 @@ namespace discord {
         virtual ~Client();
 
         void connect(String const& url);
-        void disconnect();
+        void disconnect(uint32 code, String const& reason);
 
         // Current user
         User get_me();
         Guilds get_my_guilds();
+        Relationships get_relationships();
 
         Channels get_guild_channels(Snowflake const& guild_id);
 
         void send_message(Snowflake const& channel_id, String const& message);
 
         // Discord events
-        virtual void on_message();
+        virtual void on_message(Message const&);
         virtual void on_reaction();
+        virtual void on_presence_update();
 
         // Websocket events
         virtual void on_heartbeat();
         virtual void on_connect();
+        virtual void on_ready(String const&);
         virtual void on_disconnect();
         virtual void on_websocket_error(Websocket_Error error, String const& message);
         virtual void on_websocket_message(websocketpp::connection_hdl, websocketpp::connection<websocketpp::config::asio_tls_client>::message_ptr);
@@ -74,10 +76,11 @@ namespace discord {
         String token;
         std::shared_ptr<std::thread> thread = nullptr;
         websocketpp::connection_hdl handle;
+        Timer heartbeat_timer;
         uint32 heartbeat_interval = 0;
         bool heartbeat_ack = false;
 
-        void set_timer(uint32 time, std::function<void()> callback);
+        Timer set_timer(uint32 time, std::function<void()> callback);
         void identify();
         void heartbeat();
 

@@ -2,18 +2,6 @@
 
 #include <QDebug>
 
-// Discord events
-void Discord_Client::on_message() {
-    qDebug() << "message received";
-}
-
-// Websocket events
-void Discord_Client::on_heartbeat() {
-    qDebug() << "heartbeat";
-}
-void Discord_Client::on_connect() {
-    qDebug() << "socket connected";
-}
-void Discord_Client::on_disconnect() {
-    qDebug() << "socket disconnected";
+void Discord_Client::on_message(discord::Message const& msg) {
+    list->addItem(QString("Author: ") + QString::fromStdString(msg.author.username) + "\n" + QString::fromStdString(msg.content));
 }
