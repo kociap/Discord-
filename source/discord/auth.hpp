@@ -1,8 +1,8 @@
 #ifndef DISCORD_AUTH_HPP
 #define DISCORD_AUTH_HPP
 
-#include "authorizationdata.hpp"
 #include "rpp/string.hpp"
+#include "types.hpp"
 
 namespace discord {
     namespace auth {

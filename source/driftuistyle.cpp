@@ -1,4 +1,4 @@
-#include "driftuistyle.h"
+#include "driftuistyle.hpp"
 
 #include <QDebug>
 #include <QGraphicsDropShadowEffect>
@@ -47,16 +47,16 @@ UIPalette DriftUIStyle::buildLightPalette() {
 const UIPalette DriftUIStyle::Dark = buildDarkPalette();
 const UIPalette DriftUIStyle::Light = buildLightPalette();
 
-DriftUIStyle::DriftUIStyle(const UIPalette &palette) : QCommonStyle(), m_pal(palette) {}
+DriftUIStyle::DriftUIStyle(const UIPalette& palette) : QCommonStyle(), m_pal(palette) {}
 
-int DriftUIStyle::styleHint(StyleHint sh, const QStyleOption *opt, const QWidget *widget, QStyleHintReturn *hret) const {
+int DriftUIStyle::styleHint(StyleHint sh, const QStyleOption* opt, const QWidget* widget, QStyleHintReturn* hret) const {
     switch (sh) {
         default:
             return QCommonStyle::styleHint(sh, opt, widget, hret);
     }
 }
 
-int DriftUIStyle::layoutSpacing(QSizePolicy::ControlType, QSizePolicy::ControlType, Qt::Orientation, const QStyleOption *, const QWidget *) const {
+int DriftUIStyle::layoutSpacing(QSizePolicy::ControlType, QSizePolicy::ControlType, Qt::Orientation, const QStyleOption*, const QWidget*) const {
     return 5;
 }
 
@@ -67,7 +67,7 @@ int DriftUIStyle::layoutSpacing(QSizePolicy::ControlType, QSizePolicy::ControlTy
  *
  * Basically, fine control for sizes of different areas.
  */
-int DriftUIStyle::pixelMetric(PixelMetric pm, const QStyleOption *opt, const QWidget *widget) const {
+int DriftUIStyle::pixelMetric(PixelMetric pm, const QStyleOption* opt, const QWidget* widget) const {
     switch (pm) {
         case PM_MenuBarHMargin: {
             return 3;
@@ -100,14 +100,14 @@ int DriftUIStyle::pixelMetric(PixelMetric pm, const QStyleOption *opt, const QWi
  * For example you can add a fake padding for a QPushButton by adding another
  * QSize onto the content size provided.
  */
-QSize DriftUIStyle::sizeFromContents(ContentsType type, const QStyleOption *opt, const QSize &contentsSize, const QWidget *widget) const {
+QSize DriftUIStyle::sizeFromContents(ContentsType type, const QStyleOption* opt, const QSize& contentsSize, const QWidget* widget) const {
     switch (type) {
         case CT_MenuBarItem: {
             return contentsSize + QSize(8, 1);
         }
         case CT_MenuItem: {
             auto ret = QCommonStyle::sizeFromContents(type, opt, contentsSize, widget) - QSize(0, 4);
-            auto rOpt = qstyleoption_cast<const QStyleOptionMenuItem *>(opt);
+            auto rOpt = qstyleoption_cast<const QStyleOptionMenuItem*>(opt);
             if (rOpt->menuItemType == QStyleOptionMenuItem::SubMenu)
                 ret += QSize(10, 0);
             return ret;
@@ -121,23 +121,23 @@ QSize DriftUIStyle::sizeFromContents(ContentsType type, const QStyleOption *opt,
  * This prepares UI elements.
  * You can set up animations, fonts, and other widget details here.
  */
-void DriftUIStyle::polish(QWidget *w) {
+void DriftUIStyle::polish(QWidget* w) {
     // Use roboto font
     w->setFont(QFont("Roboto", 9));
 
-    if (qobject_cast<QMenuBar *>(w))
+    if (qobject_cast<QMenuBar*>(w))
         w->setAttribute(Qt::WA_MouseTracking);
 
-    if (qobject_cast<QPushButton *>(w))
+    if (qobject_cast<QPushButton*>(w))
         w->setAttribute(Qt::WA_Hover);
 
-    if (QMenu *menu = qobject_cast<QMenu *>(w)) {
+    if (QMenu* menu = qobject_cast<QMenu*>(w)) {
         w->setAttribute(Qt::WA_TranslucentBackground);
         w->setWindowFlags(w->windowFlags() | Qt::FramelessWindowHint | Qt::WindowSystemMenuHint | Qt::NoDropShadowWindowHint);
         w->setAttribute(Qt::WA_Hover);
         w->setAttribute(Qt::WA_MouseTracking);
 
-        QGraphicsDropShadowEffect *effect = new QGraphicsDropShadowEffect(w);
+        QGraphicsDropShadowEffect* effect = new QGraphicsDropShadowEffect(w);
         w->setGraphicsEffect(effect);
     }
 }
@@ -147,14 +147,14 @@ void DriftUIStyle::polish(QWidget *w) {
  * In this case, however, Drift UI uses a custom palette class, as the QPalette
  * is somewhat restrictive.
  */
-void DriftUIStyle::polish(QPalette &pal) {
+void DriftUIStyle::polish(QPalette& pal) {
     pal.setColor(QPalette::Window, QColor(47, 47, 47));
     pal.setColor(QPalette::Text, QColor(221, 221, 221));
     pal.setColor(QPalette::ButtonText, QColor(221, 221, 221));
     pal.setColor(QPalette::Highlight, QColor(25, 94, 231));
 }
 
-void DriftUIStyle::drawPrimitive(PrimitiveElement pe, const QStyleOption *opt, QPainter *p, const QWidget *widget) const {
+void DriftUIStyle::drawPrimitive(PrimitiveElement pe, const QStyleOption* opt, QPainter* p, const QWidget* widget) const {
     switch (pe) {
         case PE_FrameWindow: {
             break;
@@ -220,7 +220,7 @@ void DriftUIStyle::drawPrimitive(PrimitiveElement pe, const QStyleOption *opt, Q
     }
 }
 
-void DriftUIStyle::drawControl(ControlElement element, const QStyleOption *opt, QPainter *p, const QWidget *widget) const {
+void DriftUIStyle::drawControl(ControlElement element, const QStyleOption* opt, QPainter* p, const QWidget* widget) const {
     switch (element) {
         case CE_PushButton: {
             int x, y, w, h;
@@ -229,7 +229,7 @@ void DriftUIStyle::drawControl(ControlElement element, const QStyleOption *opt, 
 
             p->save();
 
-            auto rOpt = qstyleoption_cast<const QStyleOptionButton *>(opt);
+            auto rOpt = qstyleoption_cast<const QStyleOptionButton*>(opt);
 
             QLinearGradient fillGradient(x, y, x, y + h);
 
@@ -279,7 +279,7 @@ void DriftUIStyle::drawControl(ControlElement element, const QStyleOption *opt, 
         case CE_MenuBarItem: {
             p->save();
 
-            auto rOpt = qstyleoption_cast<const QStyleOptionMenuItem *>(opt);
+            auto rOpt = qstyleoption_cast<const QStyleOptionMenuItem*>(opt);
 
             bool highlight = (rOpt->state & State_MouseOver) || (rOpt->state & State_Selected);
 
@@ -304,7 +304,7 @@ void DriftUIStyle::drawControl(ControlElement element, const QStyleOption *opt, 
         case CE_MenuItem: {
             p->save();
 
-            auto rOpt = qstyleoption_cast<const QStyleOptionMenuItem *>(opt);
+            auto rOpt = qstyleoption_cast<const QStyleOptionMenuItem*>(opt);
 
             bool highlight = (rOpt->state & State_MouseOver) || (rOpt->state & State_Selected);
 
@@ -360,7 +360,7 @@ void DriftUIStyle::drawControl(ControlElement element, const QStyleOption *opt, 
     }
 }
 
-void DriftUIStyle::drawComplexControl(ComplexControl cc, const QStyleOptionComplex *opt, QPainter *p, const QWidget *widget) const {
+void DriftUIStyle::drawComplexControl(ComplexControl cc, const QStyleOptionComplex* opt, QPainter* p, const QWidget* widget) const {
     switch (cc) {
         default:
             return QCommonStyle::drawComplexControl(cc, opt, p, widget);

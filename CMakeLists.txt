@@ -15,13 +15,43 @@ set(CMAKE_AUTOUIC ON)
 find_package(Qt5Widgets CONFIG REQUIRED)
 find_package(Qt5WebEngineWidgets CONFIG REQUIRED)
 
+# Source files
+set(DISCORDPP_SRC
+  ${CMAKE_CURRENT_SOURCE_DIR}/source/discordclient.cpp
+  ${CMAKE_CURRENT_SOURCE_DIR}/source/driftuistyle.cpp
+  ${CMAKE_CURRENT_SOURCE_DIR}/source/main.cpp
+  ${CMAKE_CURRENT_SOURCE_DIR}/source/mainwindow.cpp
+)
+
+set(DISCORDPP_HEADERS
+  ${CMAKE_CURRENT_SOURCE_DIR}/source/discordclient.hpp
+  ${CMAKE_CURRENT_SOURCE_DIR}/source/driftuistyle.hpp
+  ${CMAKE_CURRENT_SOURCE_DIR}/source/mainwindow.hpp
+)
+
+# Manually list all .ui files so that Qt Creator lists them in the projects view
+set(UI_FILES
+  source/mainwindow.ui
+)
+
+# add executable
+add_executable(${PROJECT_NAME} ${DISCORDPP_SRC} ${DISCORDPP_HEADERS})
+target_sources(${PROJECT_NAME} PUBLIC ${UI_FILES})
+
+# Add certain include dirs manually because compiler can't find them
+target_include_directories(${PROJECT_NAME} SYSTEM PUBLIC websocketpp asio/asio/include)
+
+# add generated include directory
+#target_compile_options(${PROJECT_NAME} PRIVATE -isystem ${PROJECT_NAME}_autogen/include)
+
 # Add submodules
 set(CMAKE_USE_OPENSSL CACHE BOOL ON) # OPENSSL_ROOT_DIR must be set manually
 set(BUILD_SHARED_LIBS CACHE BOOL OFF) # build submodules as static libs
 set(BUILD_TESTING CACHE BOOL OFF)
-add_subdirectory(rpp)
-add_subdirectory(json)
 add_subdirectory(websocketpp)
+add_subdirectory(json)
+add_subdirectory(rpp)
+add_subdirectory(source/discord)
 
 #extra flags
 if ("${CMAKE_CXX_COMPILER_ID}" MATCHES "GNU" OR "${CMAKE_CXX_COMPILER_ID}" MATCHES "Clang")
@@ -76,29 +106,13 @@ if(MSVC)
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /wd4514") # unreferenced function removed
 endif()
 
-# Source files
-set(DISCORDPP_SRC
-  source/driftuistyle.cpp
-  source/main.cpp
-  source/mainwindow.cpp
-  source/discordclient.cpp
-  source/discord/auth.cpp
-  source/discord/client.cpp
-  source/discord/user.cpp
-  source/discord/guild.cpp
-  source/discord/channel.cpp
-  source/discord/gateway.cpp
-  source/discord/cache.cpp
-  source/discord/relationship.cpp
-  source/discord/message.cpp
-  source/discord/presence.cpp
-  source/discord/activity.cpp
-)
-
-# Manually list all .ui files so that Qt Creator lists them in the projects view
-set(UI_FILES
-  source/mainwindow.ui
-)
+# Find includes in corresponding build directories
+if ("${CMAKE_CXX_COMPILER_ID}" MATCHES "GNU" OR "${CMAKE_CXX_COMPILER_ID}" MATCHES "Clang")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -isystem ${CMAKE_CURRENT_SOURCE_DIR} -isystem ${CMAKE_CURRENT_BINARY_DIR}")
+elseif(MSVC)
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /I ${CMAKE_CURRENT_SOURCE_DIR}")
+endif()
+set(CMAKE_INCLUDE_CURRENT_DIR ON) #redundant, but required for Qt Creator to find generated files
 
 # Other files one would want to edit that are not directly part of the SCE build but we want to appear in projects
 set(MISC_FILES
@@ -112,24 +126,6 @@ add_custom_target(MISC_FILES
   COMMENT "This target only exists to list files in IDEs"
   SOURCES ${MISC_FILES} ${UI_FILES}
 )
-
-# Find includes in corresponding build directories
-if ("${CMAKE_CXX_COMPILER_ID}" MATCHES "GNU" OR "${CMAKE_CXX_COMPILER_ID}" MATCHES "Clang")
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -isystem ${CMAKE_CURRENT_SOURCE_DIR} -isystem ${CMAKE_CURRENT_BINARY_DIR}")
-elseif(MSVC)
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /I ${CMAKE_CURRENT_SOURCE_DIR}")
-endif()
-set(CMAKE_INCLUDE_CURRENT_DIR ON) #redundant, but required for Qt Creator to find generated files
-
-# add executable
-add_executable(${PROJECT_NAME} ${DISCORDPP_SRC})
-target_sources(${PROJECT_NAME} PUBLIC ${UI_FILES})
-
-# Add certain include dirs manually because compiler can't find them
-target_include_directories(${PROJECT_NAME} SYSTEM PUBLIC websocketpp asio/asio/include)
-
-# add generated include directory
-#target_compile_options(${PROJECT_NAME} PRIVATE -isystem ${PROJECT_NAME}_autogen/include)
 
 # Link executable
 set(LIBS_TO_LINK
