@@ -71,7 +71,7 @@ if ("${CMAKE_CXX_COMPILER_ID}" MATCHES "GNU" OR "${CMAKE_CXX_COMPILER_ID}" MATCH
   #disable annoying warnings
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-unused-parameter -Wno-unused-variable -Wno-missing-braces")
   #set some warnings as not errors
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-error=documentation-unknown-command -Wno-error=documentation-pedantic -Wno-error=reserved-id-macro -Wno-error=unknown-pragmas -Wno-error=covered-switch-default -Wno-error=missing-prototypes -Wno-error=shadow -Wno-error=shadow-field-in-constructor -Wno-error=conversion")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-error=documentation-unknown-command -Wno-error=documentation-pedantic -Wno-error=reserved-id-macro -Wno-error=unknown-pragmas -Wno-error=covered-switch-default -Wno-error=missing-prototypes -Wno-error=shadow -Wno-error=shadow-field-in-constructor -Wno-error=conversion -Wno-error=unknown-warning-option")
   #stop clang from complaining about unused flags. TODO: figure out why those flags are considered unused.
   if ("${CMAKE_CXX_COMPILER_ID}" MATCHES "Clang")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-unused-command-line-argument")
