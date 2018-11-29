@@ -45,7 +45,7 @@ target_include_directories(${PROJECT_NAME} SYSTEM PUBLIC websocketpp asio/asio/i
 #target_compile_options(${PROJECT_NAME} PRIVATE -isystem ${PROJECT_NAME}_autogen/include)
 
 # Add submodules
-set(CMAKE_USE_OPENSSL CACHE BOOL ON) # OPENSSL_ROOT_DIR must be set manually
+set(CMAKE_USE_OPENSSL ON CACHE BOOL "" FORCE) # OPENSSL_ROOT_DIR must be set manually
 set(BUILD_SHARED_LIBS CACHE BOOL OFF) # build submodules as static libs
 set(BUILD_TESTING CACHE BOOL OFF)
 add_subdirectory(websocketpp)
