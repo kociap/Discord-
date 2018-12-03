@@ -42,6 +42,15 @@ install:
     - sudo apt-get install ${PACKAGES}
     # ccache
     - sudo ln -s $(which ccache) /usr/lib/ccache/clang++
+    # cmake
+    - wget http://www.cmake.org/files/v3.12/cmake-3.12.1.tar.gz
+    - tar -xvzf cmake-3.12.1.tar.gz
+    - cd cmake-3.12.1/
+    - ./configure
+    - make -j $(nproc)
+    - sudo make install
+    - sudo update-alternatives --install /usr/bin/cmake cmake /usr/local/bin/cmake 1 --force
+    - cd ..
 
 before_script:
     # Display
