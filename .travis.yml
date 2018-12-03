@@ -10,12 +10,12 @@ addons:
             - llvm-toolchain-trusty-6.0
         packages:
             # C++17
-            - g++-8
-            - clang-6.0
+            #- g++-8
+            #- clang-6.0
             # gdb
-            - gdb
+            #- gdb
             # ninja
-            - ninja-build
+            #- ninja-build
 
 cache:
     ccache: true
@@ -43,13 +43,13 @@ install:
     # ccache
     - sudo ln -s $(which ccache) /usr/lib/ccache/clang++
     # cmake
-    - wget http://www.cmake.org/files/v3.12/cmake-3.12.1.tar.gz
+    - wget -q http://www.cmake.org/files/v3.12/cmake-3.12.1.tar.gz
     - tar -xzf cmake-3.12.1.tar.gz
     - cd cmake-3.12.1/
     - ./configure | grep -v - -- || true
     - make -j $(nproc) > /dev/null
     - sudo make install > /dev/null
-    - sudo update-alternatives --install /usr/bin/cmake cmake /usr/local/bin/cmake 1 --force
+    - alias cmake="/usr/local/bin/cmake"
     - which cmake
     - cmake --version
     - /usr/local/bin/cmake --version
