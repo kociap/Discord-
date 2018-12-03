@@ -1,21 +1,21 @@
 language: cpp
 dist: trusty
 
-addons:
-    apt:
-        sources:
-            # Ubuntu testing
-            - ubuntu-toolchain-r-test
-            # clang
-            - llvm-toolchain-trusty-6.0
-        packages:
-            # C++17
-            #- g++-8
-            #- clang-6.0
-            # gdb
-            #- gdb
-            # ninja
-            #- ninja-build
+#addons:
+#    apt:
+#        sources:
+#            # Ubuntu testing
+#            - ubuntu-toolchain-r-test
+#            # clang
+#            - llvm-toolchain-trusty-6.0
+#        packages:
+#            # C++17
+#            #- g++-8
+#            #- clang-6.0
+#            # gdb
+#            #- gdb
+#            # ninja
+#            #- ninja-build
 
 cache:
     ccache: true
