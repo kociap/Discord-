@@ -25,11 +25,7 @@ namespace discord {
     Client::Client(String const& token) : gateway(), token(token), heartbeat_timer([]() {}) {}
     Client::Client(String&& token) : gateway(), token(std::move(token)), heartbeat_timer([]() {}) {}
 
-    Client::~Client() {
-        if (thread) {
-            thread->join();
-        }
-    }
+    Client::~Client() {}
 
     User Client::get_me() {
         rpp::Headers headers({{"Authorization", token}});
@@ -121,6 +117,9 @@ namespace discord {
         heartbeat_timer.cancel();
         websocket.close(handle, code, reason);
         on_disconnect();
+        if (thread) {
+            thread->join();
+        }
     }
 
     void Client::websocket_message_handler(websocketpp::connection_hdl handle, Websocket::message_ptr msg) {

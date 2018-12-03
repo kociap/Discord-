@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.1)
+cmake_minimum_required(VERSION 3.12)
 project(Discordpp)
 
 enable_language(CXX)
@@ -21,17 +21,20 @@ set(DISCORDPP_SRC
   ${CMAKE_CURRENT_SOURCE_DIR}/source/driftuistyle.cpp
   ${CMAKE_CURRENT_SOURCE_DIR}/source/main.cpp
   ${CMAKE_CURRENT_SOURCE_DIR}/source/mainwindow.cpp
+  ${CMAKE_CURRENT_SOURCE_DIR}/source/loginwindow.cpp
 )
 
 set(DISCORDPP_HEADERS
   ${CMAKE_CURRENT_SOURCE_DIR}/source/discordclient.hpp
   ${CMAKE_CURRENT_SOURCE_DIR}/source/driftuistyle.hpp
   ${CMAKE_CURRENT_SOURCE_DIR}/source/mainwindow.hpp
+  ${CMAKE_CURRENT_SOURCE_DIR}/source/loginwindow.hpp
 )
 
 # Manually list all .ui files so that Qt Creator lists them in the projects view
 set(UI_FILES
   source/mainwindow.ui
+  source/loginwindow.ui
 )
 
 # add executable

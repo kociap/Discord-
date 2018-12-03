@@ -1,24 +1,29 @@
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
+#ifndef MAINWINDOW_HPP
+#define MAINWINDOW_HPP
 
 #include "discordclient.hpp"
+#include "loginwindow.hpp"
 
 #include <QMainWindow>
 
 namespace Ui {
-    class MainWindow;
+    class Main_window;
 }
 
-class MainWindow : public QMainWindow {
+class Main_window : public QMainWindow {
     Q_OBJECT
 
 public:
-    explicit MainWindow(QWidget* parent = nullptr);
-    ~MainWindow() override;
+    explicit Main_window(QWidget* parent = nullptr);
+    ~Main_window() override;
+
+private slots:
+    void logged_in(discord::String const& token);
 
 private:
-    Ui::MainWindow* ui;
-    Discord_Client* client;
+    Ui::Main_window* ui = nullptr;
+    Login_window* login_window = nullptr;
+    Discord_Client* client = nullptr;
 };
 
-#endif // MAINWINDOW_H
+#endif // !MAINWINDOW_HPP
