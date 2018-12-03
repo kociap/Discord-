@@ -49,7 +49,8 @@ install:
     - ./configure | grep -v - -- || true
     - make -j $(nproc) > /dev/null
     - sudo make install > /dev/null
-    - alias cmake="/usr/local/bin/cmake"
+    - PATH=/usr/local/bin:${PATH}
+    - export PATH
     - which cmake
     - cmake --version
     - /usr/local/bin/cmake --version
