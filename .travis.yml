@@ -46,7 +46,7 @@ install:
     - wget http://www.cmake.org/files/v3.12/cmake-3.12.1.tar.gz
     - tar -xzf cmake-3.12.1.tar.gz
     - cd cmake-3.12.1/
-    - ./configure | grep -v -- || true
+    - ./configure | grep -v - -- || true
     - make -j $(nproc) > /dev/null
     - sudo make install > /dev/null
     - sudo update-alternatives --install /usr/bin/cmake cmake /usr/local/bin/cmake 1 --force
