@@ -8,7 +8,7 @@ namespace discord {
     struct Guild {
         String name;
         Snowflake id;
-        uint64 permissions;
+        uint64_t permissions;
         bool owner;
 
         static Guild from_json(nlohmann::json const&);

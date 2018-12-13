@@ -113,7 +113,7 @@ namespace discord {
         on_connect();
     }
 
-    void Client::disconnect(uint32 code, String const& reason) {
+    void Client::disconnect(uint32_t code, String const& reason) {
         heartbeat_timer.cancel();
         websocket.close(handle, code, reason);
         on_disconnect();
@@ -126,7 +126,7 @@ namespace discord {
         nlohmann::json parsed_msg = nlohmann::json::parse(msg->get_payload());
         int opcode = (parsed_msg.count("op") == 1 ? parsed_msg.at("op").get<int>() : -1);
         if (opcode == opcodes::gateway::hello) {
-            heartbeat_interval = parsed_msg.at("d").at("heartbeat_interval").get<uint32>();
+            heartbeat_interval = parsed_msg.at("d").at("heartbeat_interval").get<uint32_t>();
             identify();
             heartbeat();
         } else if (opcode == opcodes::gateway::heartbeat_ack) {
@@ -134,7 +134,11 @@ namespace discord {
         } else if (opcode == opcodes::gateway::dispatch) {
             String type = parsed_msg.at("t").get<String>();
             if (type == "READY") {
-                on_ready(msg->get_payload());
+                // TODO
+                User_settings user_settings = parsed_msg.at("d").at("user_settings");
+                User user = parsed_msg.at("d").at("user");
+                Relationships relationships = parsed_msg.at("d").at("relationships");
+                on_ready(user_settings, user, relationships);
             } else if (type == "PRESENCE_UPDATE") {
                 qDebug() << QString::fromStdString(msg->get_payload());
             } else if (type == "TYPING_START") {
@@ -154,7 +158,7 @@ namespace discord {
         // TODO add error handling
     }
 
-    Timer Client::set_timer(uint32 time, std::function<void()> callback) {
+    Timer Client::set_timer(uint32_t time, std::function<void()> callback) {
         Websocket::timer_ptr timer = websocket.set_timer(time, [callback](websocketpp::lib::error_code const& code) {
             if (code == websocketpp::transport::error::operation_aborted) {
                 return;
@@ -191,7 +195,7 @@ namespace discord {
     // Websocket events
     void Client::on_heartbeat() {}
     void Client::on_connect() {}
-    void Client::on_ready(String const&) {}
+    void Client::on_ready(User_settings const&, User const&, Relationships const&) {}
     void Client::on_disconnect() {}
     void Client::on_websocket_error(Websocket_Error error, String const& message) {
         qDebug() << "websocket error: " << QString::fromStdString(message);

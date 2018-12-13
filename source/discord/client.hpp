@@ -2,6 +2,7 @@
 #define DISCORD_CLIENT_HPP
 
 #include "channel.hpp"
+#include "data/usersettings.hpp"
 #include "guild.hpp"
 #include "message.hpp"
 #include "relationship.hpp"
@@ -43,7 +44,7 @@ namespace discord {
         virtual ~Client();
 
         void connect(String const& url);
-        void disconnect(uint32 code, String const& reason);
+        void disconnect(uint32_t code, String const& reason);
 
         // Current user
         User get_me();
@@ -62,7 +63,7 @@ namespace discord {
         // Websocket events
         virtual void on_heartbeat();
         virtual void on_connect();
-        virtual void on_ready(String const&);
+        virtual void on_ready(User_settings const&, User const&, Relationships const&);
         virtual void on_disconnect();
         virtual void on_websocket_error(Websocket_Error error, String const& message);
         virtual void on_websocket_message(websocketpp::connection_hdl, websocketpp::connection<websocketpp::config::asio_tls_client>::message_ptr);
@@ -77,10 +78,10 @@ namespace discord {
         std::shared_ptr<std::thread> thread = nullptr;
         websocketpp::connection_hdl handle;
         Timer heartbeat_timer;
-        uint32 heartbeat_interval = 0;
+        uint32_t heartbeat_interval = 0;
         bool heartbeat_ack = false;
 
-        Timer set_timer(uint32 time, std::function<void()> callback);
+        Timer set_timer(uint32_t time, std::function<void()> callback);
         void identify();
         void heartbeat();
 

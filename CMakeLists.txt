@@ -17,18 +17,18 @@ find_package(Qt5WebEngineWidgets CONFIG REQUIRED)
 
 # Source files
 set(DISCORDPP_SRC
-  ${CMAKE_CURRENT_SOURCE_DIR}/source/discordclient.cpp
-  ${CMAKE_CURRENT_SOURCE_DIR}/source/driftuistyle.cpp
-  ${CMAKE_CURRENT_SOURCE_DIR}/source/main.cpp
-  ${CMAKE_CURRENT_SOURCE_DIR}/source/mainwindow.cpp
-  ${CMAKE_CURRENT_SOURCE_DIR}/source/loginwindow.cpp
+  "${CMAKE_CURRENT_SOURCE_DIR}/source/discordclient.cpp"
+  "${CMAKE_CURRENT_SOURCE_DIR}/source/driftuistyle.cpp"
+  "${CMAKE_CURRENT_SOURCE_DIR}/source/main.cpp"
+  "${CMAKE_CURRENT_SOURCE_DIR}/source/mainwindow.cpp"
+  "${CMAKE_CURRENT_SOURCE_DIR}/source/loginwindow.cpp"
 )
 
 set(DISCORDPP_HEADERS
-  ${CMAKE_CURRENT_SOURCE_DIR}/source/discordclient.hpp
-  ${CMAKE_CURRENT_SOURCE_DIR}/source/driftuistyle.hpp
-  ${CMAKE_CURRENT_SOURCE_DIR}/source/mainwindow.hpp
-  ${CMAKE_CURRENT_SOURCE_DIR}/source/loginwindow.hpp
+  "${CMAKE_CURRENT_SOURCE_DIR}/source/discordclient.hpp"
+  "${CMAKE_CURRENT_SOURCE_DIR}/source/driftuistyle.hpp"
+  "${CMAKE_CURRENT_SOURCE_DIR}/source/mainwindow.hpp"
+  "${CMAKE_CURRENT_SOURCE_DIR}/source/loginwindow.hpp"
 )
 
 # Manually list all .ui files so that Qt Creator lists them in the projects view
@@ -49,7 +49,7 @@ target_include_directories(${PROJECT_NAME} SYSTEM PUBLIC websocketpp asio/asio/i
 
 set(CMAKE_USE_OPENSSL ON CACHE BOOL "" FORCE) # OPENSSL_ROOT_DIR must be set manually
 if(CMAKE_USE_OPENSSL AND NOT OPENSSL_ROOT_DIR)
-  message(FATAL 
+  message(FATAL_ERROR 
     "Please define OPENSSL_ROOT_DIR as the path to your OpenSSL build"
   )
 endif()
@@ -110,7 +110,7 @@ endif()
 if(MSVC)
   # warnings
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /W3")
-  # Prevent spam in warning levels higher than 3
+  # Disable some of the 4th level and all level warnings
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /wd4127") # conditional expression is constant
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /wd4710 /wd4711") # function inlining
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /wd4820") # bytes padding added
