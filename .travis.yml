@@ -21,6 +21,12 @@ cache:
     ccache: true
 
 before_install:
+    #enabling aliases
+    - shopt -s expand_aliases
+    # cl prints only the current line of a command, usage: command | cl
+    - alias cl='while read i; do echo -en "\\r\\033[K$i"; done'
+    # pass error codes accross pipes
+    - set -o pipefail
     # tell apt to allow parallel downloads
     - sudo sh -c "echo 'Acquire::Queue-Mode "host";' >> /etc/apt/apt.conf"
     # gcc
@@ -43,12 +49,12 @@ install:
     # ccache
     - sudo ln -s $(which ccache) /usr/lib/ccache/clang++
     # cmake
-    - wget -q http://www.cmake.org/files/v3.12/cmake-3.12.1.tar.gz
-    - tar -xzf cmake-3.12.1.tar.gz
+    - wget http://www.cmake.org/files/v3.12/cmake-3.12.1.tar.gz 2>&1 | cl
+    - tar -xvzf cmake-3.12.1.tar.gz | cl
     - cd cmake-3.12.1/
     - ./configure | grep -v - -- || true
-    - make -j $(nproc) > /dev/null
-    - sudo make install > /dev/null
+    - make -j $(nproc) | cl
+    - sudo make install | cl
     - PATH=/usr/local/bin:${PATH}
     - export PATH
     - cd ..
