@@ -38,7 +38,7 @@ namespace discord {
         return User::from_json(json);
     }
 
-    Guilds Client::get_my_guilds() {
+    Guilds Client::get_guilds() {
         rpp::Headers headers({{"Authorization", token}});
         rpp::Request req;
         req.set_headers(headers);

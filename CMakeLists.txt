@@ -47,14 +47,21 @@ target_include_directories(${PROJECT_NAME} SYSTEM PUBLIC websocketpp asio/asio/i
 # add generated include directory
 #target_compile_options(${PROJECT_NAME} PRIVATE -isystem ${PROJECT_NAME}_autogen/include)
 
-# Add submodules
 set(CMAKE_USE_OPENSSL ON CACHE BOOL "" FORCE) # OPENSSL_ROOT_DIR must be set manually
-set(BUILD_SHARED_LIBS CACHE BOOL OFF) # build submodules as static libs
+if(CMAKE_USE_OPENSSL AND NOT OPENSSL_ROOT_DIR)
+  message(FATAL 
+    "Please define OPENSSL_ROOT_DIR as the path to your OpenSSL build"
+  )
+endif()
+
+set(BUILD_SHARED_LIBS CACHE BOOL OFF) # build all submodules as static libs
 set(BUILD_TESTING CACHE BOOL OFF)
+
 add_subdirectory(websocketpp)
 add_subdirectory(json)
 add_subdirectory(rpp)
 add_subdirectory(source/discord)
+add_subdirectory(source/widgets)
 
 #extra flags
 if ("${CMAKE_CXX_COMPILER_ID}" MATCHES "GNU" OR "${CMAKE_CXX_COMPILER_ID}" MATCHES "Clang")

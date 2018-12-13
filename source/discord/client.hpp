@@ -47,7 +47,7 @@ namespace discord {
 
         // Current user
         User get_me();
-        Guilds get_my_guilds();
+        Guilds get_guilds();
         Relationships get_relationships();
 
         Channels get_guild_channels(Snowflake const& guild_id);

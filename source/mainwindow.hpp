@@ -3,6 +3,7 @@
 
 #include "discordclient.hpp"
 #include "loginwindow.hpp"
+#include "widgets/guildslist.hpp"
 
 #include <QMainWindow>
 
@@ -22,8 +23,9 @@ private slots:
 
 private:
     Ui::Main_window* ui = nullptr;
-    Login_window* login_window = nullptr;
+    Login_window login_window;
     Discord_Client* client = nullptr;
+    Guilds_list guilds_list;
 };
 
 #endif // !MAINWINDOW_HPP

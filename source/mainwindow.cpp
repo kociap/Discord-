@@ -8,29 +8,18 @@
 #include "QMetaObject"
 #include <QDebug>
 
-Main_window::Main_window(QWidget* parent) : QMainWindow(parent), ui(new Ui::Main_window), login_window(new Login_window()) {
+Main_window::Main_window(QWidget* parent) : QMainWindow(parent), ui(new Ui::Main_window), login_window(), guilds_list(this) {
     ui->setupUi(this);
     ui->lineEdit->setFocus();
 
-    login_window->show();
+    login_window.show();
 
-    connect(login_window, &Login_window::logged_in, this, &Main_window::logged_in);
-    connect(login_window, &Login_window::window_closed, this, &Main_window::close);
-
-    /*discord::String token = discord::auth::login("email", "password");
-    discord::String gateway = discord::gateway::get_gateway();
-    client = new Discord_Client(token);
-    client->list = ui->listWidget;
-    client->connect(gateway);
-    discord::Relationships relationships = client->get_relationships();
-    for (discord::Relationship const& relationship : relationships) {
-        qDebug() << QString::fromStdString(relationship.username) << QString::fromStdString(relationship.id);
-    }*/
+    connect(&login_window, &Login_window::logged_in, this, &Main_window::logged_in);
+    connect(&login_window, &Login_window::window_closed, this, &Main_window::close);
 }
 
 Main_window::~Main_window() {
     delete ui;
-    delete login_window;
     if (client != nullptr) {
         client->disconnect(1000, "log out");
         delete client;
@@ -38,14 +27,14 @@ Main_window::~Main_window() {
 }
 
 void Main_window::logged_in(discord::String const& token) {
-    login_window->hide();
+    login_window.hide();
     show();
     client = new Discord_Client(token);
     discord::String gateway = discord::gateway::get_gateway();
     client->list = ui->listWidget;
     client->connect(gateway);
-    discord::Relationships relationships = client->get_relationships();
-    for (discord::Relationship const& relationship : relationships) {
-        qDebug() << QString::fromStdString(relationship.username) << QString::fromStdString(relationship.id);
+    discord::Guilds guilds = client->get_guilds();
+    for (discord::Guild const& guild : guilds) {
+        guilds_list.add_guild(QString::fromStdString(guild.name));
     }
 }
