@@ -25,7 +25,7 @@ Main_window::~Main_window() {
         delete client;
     }
 }
-
+#include <fstream>
 void Main_window::logged_in(discord::String const& token) {
     login_window.hide();
     show();
@@ -39,4 +39,6 @@ void Main_window::logged_in(discord::String const& token) {
     //}
     discord::User me = client->get_me();
     discord::Image my_avatar = client->get_avatar(me);
+    discord::Guild guild = client->get_guilds()[0];
+    discord::Image guild_icon = client->get_guild_icon(guild);
 }

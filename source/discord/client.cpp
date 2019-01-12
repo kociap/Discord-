@@ -86,16 +86,30 @@ namespace discord {
                 image.format = Image_Format::png;
             }
 
-            avatars_url = url::avatars(user.id, user.avatar.value(), image_extension);
+            avatars_url = url::avatar(user.id, user.avatar.value(), image_extension);
         } else {
             // Request default avatar
-            avatars_url = url::default_avatars(user.discriminator);
+            avatars_url = url::default_avatar(user.discriminator);
         }
         rpp::Request req;
         req.set_verify_ssl(false);
         rpp::Response res = req.get(avatars_url);
         // TODO add error handling
         image.data = std::move(res.text);
+        return image;
+    }
+
+    Image Client::get_guild_icon(Guild const& guild) {
+        Image image;
+        image.format = Image_Format::png;
+        if (guild.icon) {
+            rpp::URL icon_url = url::guild_icon(guild.id, guild.icon.value(), "png");
+            rpp::Request req;
+            req.set_verify_ssl(false);
+            rpp::Response res = req.get(icon_url);
+			// TODO add error handling
+			image.data = std::move(res.text);
+        }
         return image;
     }
 

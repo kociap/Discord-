@@ -37,31 +37,40 @@ namespace discord {
         // GET
         String const gateway("https://discordapp.com/api/gateway");
 
+        // CDN endpoints
+        // https://discordapp.com/developers/docs/reference#image-formatting-cdn-endpoints
+
         // GET
         // Avatar image endpoint
-        // Supported file formats are: PNG, JPEG, GIF
+        // Supported file formats: PNG, JPEG, GIF
         //
         // URL:
         //     https://cdn.discordapp.com/avatars/user_id/avatar_hash.image_extension
         //
         // Query params:
         //     size - size of the image, may be any power of 2 within [16, 2048]
-        //
-        // https://discordapp.com/developers/docs/reference#image-formatting-cdn-endpoints
-        rpp::URL avatars(std::string const& user_id, std::string const& avatar_hash, std::string const& image_extension);
+        rpp::URL avatar(std::string const& user_id, std::string const& avatar_hash, std::string const& image_extension);
 
         // GET
         // Default avatar image endpoint
-        // Supported file formats are: PNG
+        // Supported file formats: PNG
         //
         // URL:
         //     https://cdn.discordapp.com/embed/avatars/modified_discriminator.png
         //
         // Query params:
         //     size - size of the image, may be any power of 2 within [16, 2048]
+        rpp::URL default_avatar(std::string const& discriminator);
+
+        // GET
+        // Supported file formats: PNG, JPEG
         //
-        // https://discordapp.com/developers/docs/reference#image-formatting-cdn-endpoints
-        rpp::URL default_avatars(std::string const& discriminator);
+        // URL:
+        // 	   https://cdn.discordapp.com/icons/guild_id/icon_hash.image_extension
+        //
+        // Query params:
+        //     size - size of the image, may be any power of 2 within [16, 2048]
+        rpp::URL guild_icon(std::string const& guild_id, std::string const& icon_hash, std::string const& image_extension);
     } // namespace url
 } // namespace discord
 #endif // !DISCORD_URLS_HPP

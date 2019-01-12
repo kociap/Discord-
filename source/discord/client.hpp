@@ -61,6 +61,7 @@ namespace discord {
 
         Channels get_guild_channels(Snowflake const& guild_id);
         Image get_avatar(User const&);
+        Image get_guild_icon(Guild const&);
 
         void send_message(Snowflake const& channel_id, String const& message);
 

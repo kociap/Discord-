@@ -1,5 +1,6 @@
 #include "user.hpp"
 
+#include "utils/json.hpp"
 #include <string>
 
 namespace discord {
@@ -12,31 +13,12 @@ namespace discord {
         json.at("id").get_to(user.id);
         json.at("username").get_to(user.username);
         json.at("discriminator").get_to(user.discriminator);
-        if (json.count("avatar")) {
-            auto avatar_json = json.at("avatar");
-            if (avatar_json.is_null()) {
-                user.avatar = std::nullopt;
-            } else {
-                user.avatar = avatar_json.get<String>();
-			}
-        }
-        if (json.count("locale")) {
-            user.locale = json.at("locale").get<String>();
-        }
-        if (json.count("email")) {
-            user.email = json.at("email").get<String>();
-        }
-        if (json.count("nitro_type")) {
-            user.flags = json.at("nitro_type").get<uint64_t>();
-        }
-        if (json.count("bot")) {
-            user.bot = json.at("bot").get<bool>();
-        }
-        if (json.count("verified")) {
-            user.verified = json.at("verified").get<bool>();
-        }
-        if (json.count("mfa_enabled")) {
-            user.mfa_enabled = json.at("mfa_enabled").get<bool>();
-        }
+        json::utils::get_nullable_optional_field(json, "avatar", user.avatar);
+        json::utils::get_optional_field(json, "locale", user.locale);
+        json::utils::get_optional_field(json, "email", user.email);
+        json::utils::get_optional_field(json, "nitro_type", user.nitro_type);
+        json::utils::get_optional_field(json, "bot", user.bot);
+        json::utils::get_optional_field(json, "verified", user.verified);
+        json::utils::get_optional_field(json, "mfa_enabled", user.mfa_enabled);
     }
 } // namespace discord

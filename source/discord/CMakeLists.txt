@@ -1,4 +1,4 @@
-set(SOURCE_FILES
+set(DISCORD_SOURCES
     "${CMAKE_CURRENT_SOURCE_DIR}/activity.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/auth.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/channel.cpp"
@@ -15,8 +15,8 @@ set(SOURCE_FILES
     "${CMAKE_CURRENT_SOURCE_DIR}/image.cpp"
 )
 
-set(HEADER_FILES
-    "${CMAKE_CURRENT_SOURCE_DIR}/activity.hpp"
+set(DISCORD_HEADERS
+    "${CMAKE_CURRENT_SOURCE_DIR}/activity.hpp"      
     "${CMAKE_CURRENT_SOURCE_DIR}/auth.hpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/channel.hpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/client.hpp"
@@ -32,7 +32,20 @@ set(HEADER_FILES
     "${CMAKE_CURRENT_SOURCE_DIR}/data/usersettings.hpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/data/userguildsettings.hpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/image.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/utils/json.hpp"
 )
 
-target_sources(${PROJECT_NAME} PRIVATE ${SOURCE_FILES} PUBLIC ${HEADER_FILES})
+set(DISCORDPP_SRC 
+    ${DISCORDPP_SRC}
+    ${DISCORD_SOURCES}
+    PARENT_SCOPE
+)
+
+set(DISCORDPP_HEADERS
+    ${DISCORDPP_HEADERS}
+    ${DISCORD_HEADERS}
+    PARENT_SCOPE
+)
+
+target_sources(${PROJECT_NAME} PRIVATE ${DISCORD_SOURCES} PUBLIC ${DISCORD_HEADERS})
 

@@ -33,8 +33,8 @@ set(DISCORDPP_HEADERS
 
 # Manually list all .ui files so that Qt Creator lists them in the projects view
 set(UI_FILES
-  source/mainwindow.ui
-  source/loginwindow.ui
+  "${CMAKE_CURRENT_SOURCE_DIR}/source/mainwindow.ui"
+  "${CMAKE_CURRENT_SOURCE_DIR}/source/loginwindow.ui"
 )
 
 # add executable
@@ -138,6 +138,9 @@ add_custom_target(MISC_FILES
   COMMENT "This target only exists to list files in IDEs"
   SOURCES ${MISC_FILES} ${UI_FILES}
 )
+
+include("SourceGroupsFromPaths.cmake")
+source_groups_from_paths("${CMAKE_CURRENT_SOURCE_DIR}" ${DISCORDPP_SRC} ${DISCORDPP_HEADERS})
 
 # Link executable
 set(LIBS_TO_LINK
