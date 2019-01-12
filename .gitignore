@@ -33,12 +33,15 @@
 build/
 
 # IDE files
+## Qt Creator
 *.user
-# VS
+## VS
 *.sln
 *.vcxproj
 *.vcxproj.filters
 .vs
+## VSCode
+.vscode
 
 # CMake files
 CMakeCache.txt
