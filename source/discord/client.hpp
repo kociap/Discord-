@@ -4,19 +4,27 @@
 #include "channel.hpp"
 #include "data/usersettings.hpp"
 #include "guild.hpp"
+#include "image.hpp"
 #include "message.hpp"
 #include "relationship.hpp"
-#include "rpp/string.hpp"
 #include "types.hpp"
 #include "user.hpp"
+
+#ifdef _MSC_VER
+// Disable all warnings from websocketpp and asio
+#pragma warning(push, 0)
+#endif // _MSC_VER
 
 #define _WEBSOCKETPP_CPP11_RANDOM_DEVICE_
 #define _WEBSOCKETPP_CPP11_TYPE_TRAITS_
 #define ASIO_STANDALONE
-#pragma warning(push, 0) // Disable all warnings from websocketpp and asio
 #include "websocketpp/client.hpp"
 #include "websocketpp/config/asio_client.hpp"
+
+#ifdef _MSC_VER
+// Restore warnings
 #pragma warning(pop)
+#endif // _MSC_VER
 
 #include <thread>
 #include <vector>
@@ -52,6 +60,7 @@ namespace discord {
         Relationships get_relationships();
 
         Channels get_guild_channels(Snowflake const& guild_id);
+        Image get_avatar(User const&);
 
         void send_message(Snowflake const& channel_id, String const& message);
 

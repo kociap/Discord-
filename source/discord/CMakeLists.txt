@@ -11,6 +11,8 @@ set(SOURCE_FILES
     "${CMAKE_CURRENT_SOURCE_DIR}/user.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/data/usersettings.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/data/userguildsettings.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/urls.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/image.cpp"
 )
 
 set(HEADER_FILES
@@ -29,6 +31,7 @@ set(HEADER_FILES
     "${CMAKE_CURRENT_SOURCE_DIR}/user.hpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/data/usersettings.hpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/data/userguildsettings.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/image.hpp"
 )
 
 target_sources(${PROJECT_NAME} PRIVATE ${SOURCE_FILES} PUBLIC ${HEADER_FILES})

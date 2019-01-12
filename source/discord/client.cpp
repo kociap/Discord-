@@ -8,7 +8,6 @@
 #include "websocketpp/connection.hpp"
 
 #include <QDebug>
-#include <fstream>
 #include <map>
 
 // Timer
@@ -71,6 +70,36 @@ namespace discord {
         nlohmann::json json = nlohmann::json::parse(res.text);
         Channels channels = json;
         return channels;
+    }
+
+    Image Client::get_avatar(User const& user) {
+        Image image;
+        String image_extension;
+        rpp::URL avatars_url;
+        if (user.avatar) {
+            // Check extension. If hash begins with "a_", it's available as gif
+            if (user.avatar.value()[0] == 'a' && user.avatar.value()[1] == '_') {
+                image_extension = "gif";
+                image.format = Image_Format::gif;
+            } else {
+                image_extension = "png";
+                image.format = Image_Format::png;
+            }
+
+            avatars_url = url::avatars(user.id, user.avatar.value(), image_extension);
+            // rpp::Headers headers({{"Content-Type", String("image/png")}});
+            rpp::Request req;
+            // req.set_headers(headers);
+            //        req.set_verbose(true);
+            req.set_verify_ssl(false);
+        } else {
+            // Request default avatar
+            avatars_url = url::default_avatars(user.discriminator);
+        }
+        rpp::Response res = req.get(avatars_url);
+        // TODO add error handling
+        image.data = std::move(res.text);
+        return image;
     }
 
     void Client::send_message(Snowflake const& channel_id, String const& message) {
