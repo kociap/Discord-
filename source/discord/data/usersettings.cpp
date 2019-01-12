@@ -6,7 +6,6 @@ namespace discord {
         json.at("restricted_guilds").get_to(settings.restricted_guilds);
         json.at("theme").get_to(settings.theme);
         json.at("locale").get_to(settings.locale);
-        json.at("status").get_to(settings.status);
         json.at("timezone_offset").get_to(settings.timezone_offset);
         json.at("afk_timeout").get_to(settings.afk_timeout);
         json.at("explicit_content_filter").get_to(settings.explicit_content_filter);
@@ -24,5 +23,18 @@ namespace discord {
         json.at("default_guilds_restricted").get_to(settings.default_guilds_restricted);
         json.at("animate_emoji").get_to(settings.animate_emoji);
         json.at("convert_emoticons").get_to(settings.convert_emoticons);
+
+        std::string status = json.at("status").get<std::string>();
+        if (status == "online") {
+            settings.status = Status::online;
+        } else if (status == "dnd") {
+            settings.status = Status::do_not_disturb;
+        } else if (status == "idle") {
+            settings.status = Status::idle;
+        } else if (status == "invisible") {
+            settings.status = Status::invisible;
+        } else {
+            settings.status = Status::offline;
+        }
     }
 } // namespace discord
