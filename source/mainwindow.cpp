@@ -38,5 +38,5 @@ void Main_window::logged_in(discord::String const& token) {
     //    guilds_list.add_guild(QString::fromStdString(guild.name));
     //}
     discord::User me = client->get_me();
-    Image my_avatar = client->get_avatar(me);
+    discord::Image my_avatar = client->get_avatar(me);
 }

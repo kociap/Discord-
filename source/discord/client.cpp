@@ -87,15 +87,12 @@ namespace discord {
             }
 
             avatars_url = url::avatars(user.id, user.avatar.value(), image_extension);
-            // rpp::Headers headers({{"Content-Type", String("image/png")}});
-            rpp::Request req;
-            // req.set_headers(headers);
-            //        req.set_verbose(true);
-            req.set_verify_ssl(false);
         } else {
             // Request default avatar
             avatars_url = url::default_avatars(user.discriminator);
         }
+        rpp::Request req;
+        req.set_verify_ssl(false);
         rpp::Response res = req.get(avatars_url);
         // TODO add error handling
         image.data = std::move(res.text);
