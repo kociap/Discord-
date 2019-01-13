@@ -4,6 +4,7 @@
 #include "nlohmann/json.hpp"
 #include "types.hpp"
 #include <optional>
+#include <vector>
 
 namespace discord {
     // May be partial, only id is guaranteed to be filled (don't remember if that's true, actually)
@@ -30,6 +31,8 @@ namespace discord {
 
         static User from_json(nlohmann::json const&);
     };
+
+    using Users = std::vector<User>;
 
     // nlohmann::json specific function
     void from_json(nlohmann::json const&, User&);

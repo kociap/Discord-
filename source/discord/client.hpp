@@ -58,6 +58,12 @@ namespace discord {
         User get_me();
         Guilds get_guilds();
         Relationships get_relationships();
+        //Channels get_dms();
+
+        // Create a dm or a group dm
+        Channel create_dm(Users const& recipients);
+
+        User get_user(Snowflake const& user_id);
 
         Channels get_guild_channels(Snowflake const& guild_id);
         Image get_avatar(User const&);
@@ -82,9 +88,11 @@ namespace discord {
         using Websocket = websocketpp::client<websocketpp::config::asio_tls_client>;
         Websocket websocket;
 
+        User current_user;
+
     private:
         String gateway;
-        String token;
+        String const token;
         std::shared_ptr<std::thread> thread = nullptr;
         websocketpp::connection_hdl handle;
         Timer heartbeat_timer;

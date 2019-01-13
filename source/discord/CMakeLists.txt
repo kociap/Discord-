@@ -13,6 +13,7 @@ set(DISCORD_SOURCES
     "${CMAKE_CURRENT_SOURCE_DIR}/data/userguildsettings.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/urls.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/image.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/exception.cpp"
 )
 
 set(DISCORD_HEADERS
@@ -33,6 +34,7 @@ set(DISCORD_HEADERS
     "${CMAKE_CURRENT_SOURCE_DIR}/data/userguildsettings.hpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/image.hpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/utils/json.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/exception.hpp"
 )
 
 set(DISCORDPP_SRC 

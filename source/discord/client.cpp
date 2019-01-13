@@ -1,5 +1,6 @@
 #include "client.hpp"
 
+#include "exception.hpp"
 #include "opcodes.hpp"
 #include "urls.hpp"
 
@@ -26,6 +27,12 @@ namespace discord {
 
     Client::~Client() {}
 
+	static void handle_request_error(rpp::Response const& res) {
+        if (res.status >= 400) {
+            throw Http_Request_Failed(res.status, res.text);
+        }
+	}
+
     User Client::get_me() {
         rpp::Headers headers({{"Authorization", token}});
         rpp::Request req;
@@ -50,7 +57,7 @@ namespace discord {
     }
 
     Relationships Client::get_relationships() {
-        rpp::Headers headers({{"authorization", token}});
+        rpp::Headers headers({{"Authorization", token}});
         rpp::Request req;
         req.set_headers(headers);
         req.set_verify_ssl(false);
@@ -58,6 +65,32 @@ namespace discord {
         nlohmann::json json = nlohmann::json::parse(res.text);
         Relationships rels = json;
         return rels;
+    }
+
+    Channel Client::create_dm(Users const& recipients) {
+        std::string array_elements;
+        for (auto& user : recipients) {
+            if (array_elements.empty()) {
+                array_elements.append(user.id);
+            } else {
+                array_elements.append("," + user.id);
+            }
+        }
+
+        rpp::Body body("{\"recipients\":[" + array_elements + "]}");
+        rpp::Headers headers({{"Authorization", token}, {"Content-Type", "application/json"}});
+        rpp::Request req;
+        req.set_headers(headers);
+        req.set_verify_ssl(false);
+        rpp::URL url = url::create_dm(current_user.id);
+        rpp::Response res = req.post(url, body);
+        handle_request_error(res);
+        nlohmann::json json = nlohmann::json::parse(res.text);
+        return Channel::from_json(json);
+    }
+
+    User Client::get_user(Snowflake const& user_id) {
+        return User();
     }
 
     Channels Client::get_guild_channels(Snowflake const& guild_id) {
@@ -107,8 +140,8 @@ namespace discord {
             rpp::Request req;
             req.set_verify_ssl(false);
             rpp::Response res = req.get(icon_url);
-			// TODO add error handling
-			image.data = std::move(res.text);
+            // TODO add error handling
+            image.data = std::move(res.text);
         }
         return image;
     }
@@ -178,6 +211,7 @@ namespace discord {
                 User_settings user_settings = parsed_msg.at("d").at("user_settings");
                 User user = parsed_msg.at("d").at("user");
                 Relationships relationships = parsed_msg.at("d").at("relationships");
+                current_user = user;
                 on_ready(user_settings, user, relationships);
             } else if (type == "PRESENCE_UPDATE") {
                 qDebug() << QString::fromStdString(msg->get_payload());

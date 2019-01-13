@@ -15,5 +15,9 @@ namespace discord {
         rpp::URL guild_icon(std::string const& guild_id, std::string const& icon_hash, std::string const& image_extension) {
             return "https://cdn.discordapp.com/icons/" + guild_id + "/" + icon_hash + "." + image_extension;
         }
+
+        rpp::URL create_dm(std::string const& user_id) {
+            return "https://discordapp.com/api/users/" + user_id + "/channels";
+        }
     } // namespace url
 } // namespace discord

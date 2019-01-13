@@ -26,6 +26,16 @@ namespace discord {
     };
 
     //
+    // https://discordapp.com/developers/docs/resources/channel#channel-object-channel-types
+    enum class Channel_Type {
+        guild_text,     // = 0
+        dm,             // = 1
+        guild_voice,    // = 2
+        group_dm,       // = 3
+        guild_category, // = 4
+    };
+
+    //
     // https://discordapp.com/developers/docs/resources/user#user-object-user-flags
     namespace user_flags {
         constexpr uint64_t none = 0;
