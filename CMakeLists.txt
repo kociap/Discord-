@@ -22,6 +22,8 @@ set(DISCORDPP_SRC
   ${CMAKE_CURRENT_SOURCE_DIR}/source/main.cpp
   ${CMAKE_CURRENT_SOURCE_DIR}/source/mainwindow.cpp
   ${CMAKE_CURRENT_SOURCE_DIR}/source/loginwindow.cpp
+  ${CMAKE_CURRENT_SOURCE_DIR}/source/tooltip.cpp
+  ${CMAKE_CURRENT_SOURCE_DIR}/source/servericonwidget.cpp
 )
 
 set(DISCORDPP_HEADERS
@@ -29,6 +31,8 @@ set(DISCORDPP_HEADERS
   ${CMAKE_CURRENT_SOURCE_DIR}/source/driftuistyle.hpp
   ${CMAKE_CURRENT_SOURCE_DIR}/source/mainwindow.hpp
   ${CMAKE_CURRENT_SOURCE_DIR}/source/loginwindow.hpp
+  ${CMAKE_CURRENT_SOURCE_DIR}/source/tooltip.hpp
+  ${CMAKE_CURRENT_SOURCE_DIR}/source/servericonwidget.hpp
 )
 
 # Manually list all .ui files so that Qt Creator lists them in the projects view
