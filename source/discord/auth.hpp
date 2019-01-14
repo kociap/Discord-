@@ -1,7 +1,6 @@
 #ifndef DISCORD_AUTH_HPP
 #define DISCORD_AUTH_HPP
 
-#include "rpp/string.hpp"
 #include "types.hpp"
 #include <variant>
 

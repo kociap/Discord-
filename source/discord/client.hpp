@@ -5,7 +5,6 @@
 #include "guild.hpp"
 #include "message.hpp"
 #include "relationship.hpp"
-#include "rpp/string.hpp"
 #include "types.hpp"
 #include "user.hpp"
 
