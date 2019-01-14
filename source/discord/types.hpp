@@ -2,6 +2,7 @@
 #define DISCORD_TYPES_HPP
 
 #include <cstdint>
+#include <string>
 #include <vector>
 
 namespace discord {
