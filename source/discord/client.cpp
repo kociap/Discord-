@@ -22,16 +22,16 @@ namespace discord {
 
 // Client
 namespace discord {
-    Client::Client(String const& token) : gateway(), token(token), heartbeat_timer([]() {}) {}
-    Client::Client(String&& token) : gateway(), token(std::move(token)), heartbeat_timer([]() {}) {}
-
-    Client::~Client() {}
-
-    static void handle_request_error(rpp::Response const& res) {
+    static void handle_request_errors(rpp::Response const& res) {
         if (res.status >= 400) {
             throw Http_Request_Failed(res.status, res.text);
         }
     }
+
+    Client::Client(String const& token) : gateway(), token(token), heartbeat_timer([]() {}) {}
+    Client::Client(String&& token) : gateway(), token(std::move(token)), heartbeat_timer([]() {}) {}
+
+    Client::~Client() {}
 
     User Client::get_me() {
         rpp::Headers headers({{"Authorization", token}});
@@ -84,14 +84,14 @@ namespace discord {
         req.set_verify_ssl(false);
         rpp::URL url = url::create_dm(current_user.id);
         rpp::Response res = req.post(url, body);
-        handle_request_error(res);
+        handle_request_errors(res);
         nlohmann::json json = nlohmann::json::parse(res.text);
         return Channel::from_json(json);
     }
 
-    User Client::get_user(Snowflake const& user_id) {
+    /*User Client::get_user(Snowflake const& user_id) {
         return User();
-    }
+    }*/
 
     Channels Client::get_guild_channels(Snowflake const& guild_id) {
         rpp::Headers headers({{"Authorization", token}});
@@ -105,7 +105,7 @@ namespace discord {
         return channels;
     }
 
-    Image Client::get_avatar(User const& user) {
+    Image Client::get_avatar(User const& user, uint32_t size) {
         Image image;
         String image_extension;
         rpp::URL avatars_url;
@@ -119,29 +119,35 @@ namespace discord {
                 image.format = Image_Format::png;
             }
 
-            avatars_url = url::avatar(user.id, user.avatar.value(), image_extension);
+            avatars_url = url::avatar(user.id, user.avatar.value(), image_extension, size);
         } else {
             // Request default avatar
-            avatars_url = url::default_avatar(user.discriminator);
+            avatars_url = url::default_avatar(user.discriminator, size);
         }
         rpp::Request req;
         req.set_verify_ssl(false);
         rpp::Response res = req.get(avatars_url);
-        // TODO add error handling
+        // TODO add more error handling
+        handle_request_errors(res);
         image.data = std::move(res.text);
+        image.width = size;
+        image.height = size;
         return image;
     }
 
-    Image Client::get_guild_icon(Guild const& guild) {
+    Image Client::get_guild_icon(Guild const& guild, uint32_t size) {
         Image image;
         image.format = Image_Format::png;
         if (guild.icon) {
-            rpp::URL icon_url = url::guild_icon(guild.id, guild.icon.value(), "png");
+            rpp::URL icon_url = url::guild_icon(guild.id, guild.icon.value(), "png", size);
             rpp::Request req;
             req.set_verify_ssl(false);
             rpp::Response res = req.get(icon_url);
-            // TODO add error handling
+            // TODO add more error handling
+            handle_request_errors(res);
             image.data = std::move(res.text);
+            image.width = size;
+            image.height = size;
         }
         return image;
     }
@@ -208,7 +214,7 @@ namespace discord {
             String type = parsed_msg.at("t").get<String>();
             if (type == "READY") {
                 // TODO add presences, read_state, guilds, notes (???), guild_experiments (???), friends_suggestion_count,
-				//      experiments(???), consents, connected_accounts, analytics_token, _trace
+                //      experiments(???), consents, connected_accounts, analytics_token, _trace
                 User_Settings user_settings = parsed_msg.at("d").at("user_settings");
                 User user = parsed_msg.at("d").at("user");
                 Relationships relationships = parsed_msg.at("d").at("relationships");

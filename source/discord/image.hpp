@@ -13,6 +13,8 @@ namespace discord {
     struct Image {
         std::string data;
         Image_Format format;
+        uint32_t width = 0;
+        uint32_t height = 0;
     };
 } // namespace discord
 

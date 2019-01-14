@@ -46,7 +46,7 @@ namespace discord {
         //
         // Query params:
         //     size - size of the image, may be any power of 2 within [16, 2048]
-        rpp::URL avatar(std::string const& user_id, std::string const& avatar_hash, std::string const& image_extension);
+        rpp::URL avatar(std::string const& user_id, std::string const& avatar_hash, std::string const& image_extension, uint32_t size = 128);
 
         // GET https://cdn.discordapp.com/embed/avatars/modified_discriminator.png
         // Default avatar image endpoint
@@ -54,14 +54,14 @@ namespace discord {
         //
         // Query params:
         //     size - size of the image, may be any power of 2 within [16, 2048]
-        rpp::URL default_avatar(std::string const& discriminator);
+        rpp::URL default_avatar(std::string const& discriminator, uint32_t size = 128);
 
         // GET https://cdn.discordapp.com/icons/guild_id/icon_hash.image_extension
         // Supported file formats: PNG, JPEG
         //
         // Query params:
         //     size - size of the image, may be any power of 2 within [16, 2048]
-        rpp::URL guild_icon(std::string const& guild_id, std::string const& icon_hash, std::string const& image_extension);
+        rpp::URL guild_icon(std::string const& guild_id, std::string const& icon_hash, std::string const& image_extension, uint32_t size = 128);
 
         // POST https://discordapp.com/api/users/user_id/channels
         // Required headers: Authorization, Content-Type (application/json)

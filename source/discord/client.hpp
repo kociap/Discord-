@@ -63,11 +63,15 @@ namespace discord {
         // Create a dm or a group dm
         Channel create_dm(Users const& recipients);
 
-        User get_user(Snowflake const& user_id);
+        //User get_user(Snowflake const& user_id);
 
         Channels get_guild_channels(Snowflake const& guild_id);
-        Image get_avatar(User const&);
-        Image get_guild_icon(Guild const&);
+
+        // Requested avatar is size x size px big
+        Image get_avatar(User const&, uint32_t size);
+
+        // Requested icon is size x size px big
+        Image get_guild_icon(Guild const&, uint32_t size);
 
         void send_message(Snowflake const& channel_id, String const& message);
 
