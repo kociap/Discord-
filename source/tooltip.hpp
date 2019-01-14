@@ -7,7 +7,7 @@ class ToolTip : public QWidget {
     Q_OBJECT
 
 public:
-    explicit ToolTip(QWidget* parent = 0, QWidget* target = 0, const QString& text = "");
+    explicit ToolTip(QWidget* parent = nullptr, QWidget* target = nullptr, const QString& text = "");
 
 protected:
     QSize sizeHint() const override;
