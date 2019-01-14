@@ -1,11 +1,16 @@
 #include "loginwindow.hpp"
 #include "ui_loginwindow.h"
 
+#include "tooltip.hpp"
+
 #include "discord/auth.hpp"
 #include <variant>
 
 Login_window::Login_window(QWidget* parent) : QWidget(parent), ui(new Ui::Login_window) {
     ui->setupUi(this);
+
+    ui->password_edit->setEchoMode(QLineEdit::Password);
+
     setWindowFlags(Qt::Widget | Qt::MSWindowsFixedSizeDialogHint);
 }
 
@@ -19,12 +24,13 @@ void Login_window::on_login_button_clicked() {
     discord::String password(ui->password_edit->text().toStdString());
 
     if (email.size() == 0) {
-        ui->email_edit->setStyleSheet("border: 1px solid red;");
+        auto tooltip = new ToolTip{this, ui->email_edit, "Email cannot be empty"};
+        tooltip->show();
         valid = false;
     }
 
     if (password.size() == 0) {
-        ui->password_edit->setStyleSheet("border: 1px solid red;");
+        //new ToolTip{this};
         valid = false;
     }
 
