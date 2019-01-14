@@ -1,8 +1,11 @@
 #ifndef LOGINWINDOW_HPP
 #define LOGINWINDOW_HPP
 
+#include "QValidator"
 #include "QWidget"
 #include "discord/types.hpp"
+
+class QLineEdit;
 
 namespace Ui {
     class Login_window;

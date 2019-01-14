@@ -1,12 +1,12 @@
 #include "mainwindow.hpp"
+#include "QMetaObject"
 #include "discord/auth.hpp"
 #include "discord/gateway.hpp"
 #include "discord/types.hpp"
+#include "servericonwidget.hpp"
 #include "ui_mainwindow.h"
-#include <algorithm>
-
-#include "QMetaObject"
 #include <QDebug>
+#include <algorithm>
 
 Main_window::Main_window(QWidget* parent) : QMainWindow(parent), ui(new Ui::Main_window), login_window(), guilds_list(this) {
     ui->setupUi(this);
@@ -33,12 +33,9 @@ void Main_window::logged_in(discord::String const& token) {
     discord::String gateway = discord::gateway::get_gateway();
     client->list = ui->listWidget;
     client->connect(gateway);
-    discord::Guilds guilds = client->get_guilds();
-    //for (discord::Guild const& guild : guilds) {
-    //    guilds_list.add_guild(QString::fromStdString(guild.name));
-    //}
-    discord::User me = client->get_me();
-    discord::Image my_avatar = client->get_avatar(me);
-    discord::Guild guild = client->get_guilds()[0];
-    discord::Image guild_icon = client->get_guild_icon(guild);
+
+    auto servers = client->get_my_guilds();
+    for (auto& server : servers) {
+        new ServerIconWidget(QString::fromStdString(server.name), ui->listWidget);
+    }
 }
