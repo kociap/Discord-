@@ -17,6 +17,7 @@ namespace discord {
         std::optional<Snowflake> guild_id;
 		// icon hash, nullable
         std::optional<std::string> icon;
+		// May be null in the READY event
         std::optional<std::string> name;
 		// nullable
         std::optional<std::string> topic;

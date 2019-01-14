@@ -26,10 +26,10 @@ namespace discord {
         json::utils::get_optional_field(json, "recipients", channel.recipients);
         json::utils::get_optional_field(json, "owner_id", channel.owner_id);
         json::utils::get_optional_field(json, "guild_id", channel.guild_id);
-        json::utils::get_optional_field(json, "name", channel.name);
         json::utils::get_optional_field(json, "position", channel.position);
         json::utils::get_optional_field(json, "nsfw", channel.nsfw);
 
+        json::utils::get_nullable_optional_field(json, "name", channel.name);
         json::utils::get_nullable_optional_field(json, "parent_id", channel.parent_id);
         json::utils::get_nullable_optional_field(json, "icon", channel.icon);
         json::utils::get_nullable_optional_field(json, "topic", channel.topic);
