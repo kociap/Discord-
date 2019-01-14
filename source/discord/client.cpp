@@ -27,11 +27,11 @@ namespace discord {
 
     Client::~Client() {}
 
-	static void handle_request_error(rpp::Response const& res) {
+    static void handle_request_error(rpp::Response const& res) {
         if (res.status >= 400) {
             throw Http_Request_Failed(res.status, res.text);
         }
-	}
+    }
 
     User Client::get_me() {
         rpp::Headers headers({{"Authorization", token}});
@@ -207,8 +207,9 @@ namespace discord {
         } else if (opcode == opcodes::gateway::dispatch) {
             String type = parsed_msg.at("t").get<String>();
             if (type == "READY") {
-                // TODO
-                User_settings user_settings = parsed_msg.at("d").at("user_settings");
+                // TODO add presences, read_state, guilds, notes (???), guild_experiments (???), friends_suggestion_count,
+				//      experiments(???), consents, connected_accounts, analytics_token, _trace
+                User_Settings user_settings = parsed_msg.at("d").at("user_settings");
                 User user = parsed_msg.at("d").at("user");
                 Relationships relationships = parsed_msg.at("d").at("relationships");
                 current_user = user;
@@ -269,7 +270,7 @@ namespace discord {
     // Websocket events
     void Client::on_heartbeat() {}
     void Client::on_connect() {}
-    void Client::on_ready(User_settings const&, User const&, Relationships const&) {}
+    void Client::on_ready(User_Settings const&, User const&, Relationships const&) {}
     void Client::on_disconnect() {}
     void Client::on_websocket_error(Websocket_Error error, String const& message) {
         qDebug() << "websocket error: " << QString::fromStdString(message);

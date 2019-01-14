@@ -1,7 +1,7 @@
 #include "usersettings.hpp"
 
 namespace discord {
-    void from_json(nlohmann::json const& json, User_settings& settings) {
+    void from_json(nlohmann::json const& json, User_Settings& settings) {
         json.at("guild_positions").get_to(settings.guild_positions);
         json.at("restricted_guilds").get_to(settings.restricted_guilds);
         json.at("theme").get_to(settings.theme);

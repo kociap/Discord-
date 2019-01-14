@@ -5,9 +5,11 @@
 #include "nlohmann/json.hpp"
 
 namespace discord {
-    struct User_settings {
-        std::vector<String> guild_positions;
-        std::vector<String> restricted_guilds;
+    // Initial user settings received from READY event
+    struct User_Settings {
+		// Array of guilds' ids in the correct order
+        std::vector<Snowflake> guild_positions;
+        std::vector<Snowflake> restricted_guilds;
         String theme;
         String locale;
         Status status;
@@ -31,7 +33,7 @@ namespace discord {
     };
 
     // nlohmann::json specific function
-    void from_json(nlohmann::json const&, User_settings&);
+    void from_json(nlohmann::json const&, User_Settings&);
 } // namespace discord
 
 #endif // !DISCORD_DATA_USERSETTINGS_HPP
