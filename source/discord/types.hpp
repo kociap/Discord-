@@ -1,6 +1,7 @@
 #ifndef DISCORD_TYPES_HPP
 #define DISCORD_TYPES_HPP
 
+#include <string>
 #include <vector>
 
 namespace discord {
