@@ -11,7 +11,7 @@
 
 Main_window::Main_window(QWidget* parent) : QMainWindow(parent), ui(new Ui::Main_window), login_window(), guilds_list(this) {
     ui->setupUi(this);
-    ui->lineEdit->setFocus();
+    //ui->lineEdit->setFocus();
 
     login_window.show();
 
@@ -34,20 +34,14 @@ void Main_window::logged_in(discord::String const& token) {
     show();
     client = new Discord_Client(token);
     discord::String gateway = discord::gateway::get_gateway();
-    client->list = ui->listWidget;
+    //client->list = ui->listWidget;
     client->connect(gateway);
 
     auto servers = client->get_guilds();
     for (auto& server : servers) {
-        new ServerIconWidget(QString::fromStdString(server.name), ui->listWidget);
+        auto lwi = new QListWidgetItem;
+        ui->serverList->addItem(lwi);
+        auto icon = new ServerIconWidget(client, server);
+        ui->serverList->setItemWidget(lwi, icon);
     }
-
-    discord::Guilds guilds = client->get_guilds();
-    //for (discord::Guild const& guild : guilds) {
-    //    guilds_list.add_guild(QString::fromStdString(guild.name));
-    //}
-    discord::User me = client->get_me();
-    discord::Image my_avatar = client->get_avatar(me, 128);
-    //discord::Guild guild = client->get_guilds()[0];
-    //discord::Image guild_icon = client->get_guild_icon(guild);
 }

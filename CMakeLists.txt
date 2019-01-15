@@ -11,6 +11,9 @@ set(CMAKE_AUTOMOC ON)
 # Create code from a list of Qt designer ui files.
 set(CMAKE_AUTOUIC ON)
 
+# Create code from a list of resource files.
+set(CMAKE_AUTORCC ON)
+
 # Find the Qt libraries
 find_package(Qt5Widgets CONFIG REQUIRED)
 find_package(Qt5WebEngineWidgets CONFIG REQUIRED)
@@ -41,8 +44,12 @@ set(UI_FILES
   "${CMAKE_CURRENT_SOURCE_DIR}/source/loginwindow.ui"
 )
 
+set(QRC_FILES
+  "${CMAKE_CURRENT_SOURCE_DIR}/resource/resource.qrc"
+)
+
 # add executable
-add_executable(${PROJECT_NAME} ${DISCORDPP_SRC} ${DISCORDPP_HEADERS})
+add_executable(${PROJECT_NAME} ${DISCORDPP_SRC} ${DISCORDPP_HEADERS} ${QRC_FILES})
 target_sources(${PROJECT_NAME} PUBLIC ${UI_FILES})
 
 # Add certain include dirs manually because compiler can't find them
@@ -53,7 +60,7 @@ target_include_directories(${PROJECT_NAME} SYSTEM PUBLIC websocketpp asio/asio/i
 
 set(CMAKE_USE_OPENSSL ON CACHE BOOL "" FORCE) # OPENSSL_ROOT_DIR must be set manually
 if(CMAKE_USE_OPENSSL AND NOT OPENSSL_ROOT_DIR)
-  message(FATAL_ERROR 
+  message(FATAL_ERROR
     "Please define OPENSSL_ROOT_DIR as the path to your OpenSSL build"
   )
 endif()

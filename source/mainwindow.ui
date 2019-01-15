@@ -1,73 +1,63 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
-  <class>Main_window</class>
-  <widget class="QMainWindow" name="Main_window">
-    <property name="geometry">
-      <rect>
-        <x>0</x>
-        <y>0</y>
-        <width>800</width>
-        <height>600</height>
-      </rect>
-    </property>
-    <property name="windowTitle">
-      <string>Discordpp</string>
-    </property>
-    <widget class="QWidget" name="centralwidget">
-      <layout class="QHBoxLayout" name="horizontalLayout">
-        <item>
-          <widget class="QSplitter" name="splitter">
-            <property name="orientation">
-              <enum>Qt::Horizontal</enum>
-            </property>
-            <widget class="QListWidget" name="listWidget">
-            </widget>
-            <widget class="QWidget" name="layoutWidget">
-              <layout class="QVBoxLayout" name="verticalLayout">
-                <item>
-                  <widget class="QTextEdit" name="textEdit"/>
-                </item>
-                <item>
-                  <widget class="QLineEdit" name="lineEdit"/>
-                </item>
-              </layout>
-            </widget>
-          </widget>
-        </item>
-      </layout>
-    </widget>
-    <widget class="QMenuBar" name="menubar">
-      <property name="geometry">
-        <rect>
-          <x>0</x>
-          <y>0</y>
-          <width>800</width>
-          <height>25</height>
-        </rect>
+ <class>Main_window</class>
+ <widget class="QMainWindow" name="Main_window">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>800</width>
+    <height>600</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Discordpp</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QHBoxLayout" name="horizontalLayout">
+    <item>
+     <widget class="QListWidget" name="serverList">
+      <property name="maximumSize">
+       <size>
+        <width>50</width>
+        <height>16777215</height>
+       </size>
       </property>
-      <widget class="QMenu" name="menu_Menu">
-        <property name="title">
-          <string>Menu</string>
-        </property>
-        <addaction name="actionTodo_2"/>
-      </widget>
-      <addaction name="menu_Menu"/>
-    </widget>
-    <widget class="QStatusBar" name="statusbar"/>
-    <action name="actionTodo">
-      <property name="enabled">
-        <bool>false</bool>
-      </property>
-      <property name="text">
-        <string>Todo</string>
-      </property>
-    </action>
-    <action name="actionTodo_2">
-      <property name="text">
-        <string>Todo</string>
-      </property>
-    </action>
+     </widget>
+    </item>
+   </layout>
   </widget>
-  <resources/>
-  <connections/>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>800</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menu_Menu">
+    <property name="title">
+     <string>Menu</string>
+    </property>
+    <addaction name="actionTodo_2"/>
+   </widget>
+   <addaction name="menu_Menu"/>
+  </widget>
+  <action name="actionTodo">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Todo</string>
+   </property>
+  </action>
+  <action name="actionTodo_2">
+   <property name="text">
+    <string>Todo</string>
+   </property>
+  </action>
+ </widget>
+ <resources/>
+ <connections/>
 </ui>
