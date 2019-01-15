@@ -83,7 +83,7 @@ namespace discord {
         // Websocket events
         virtual void on_heartbeat();
         virtual void on_connect();
-        virtual void on_ready(User_Settings const&, User const&, Relationships const&);
+        virtual void on_ready(User_Settings const&, User const&, Relationships const&, Guilds const&);
         virtual void on_disconnect();
         virtual void on_websocket_error(Websocket_Error error, String const& message);
         virtual void on_websocket_message(websocketpp::connection_hdl, websocketpp::connection<websocketpp::config::asio_tls_client>::message_ptr);

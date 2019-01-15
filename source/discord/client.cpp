@@ -221,11 +221,13 @@ namespace discord {
             if (type == "READY") {
                 // TODO add presences, read_state, guilds, notes (???), guild_experiments (???), friends_suggestion_count,
                 //      experiments(???), consents, connected_accounts, analytics_token, _trace
-                User_Settings user_settings = parsed_msg.at("d").at("user_settings");
-                User user = parsed_msg.at("d").at("user");
-                Relationships relationships = parsed_msg.at("d").at("relationships");
+                auto data = parsed_msg.at("d");
+                User_Settings user_settings = data.at("user_settings");
+                User user = data.at("user");
+                Relationships relationships = data.at("relationships");
+                Guilds guilds = data.at("guilds");
                 current_user = user;
-                on_ready(user_settings, user, relationships);
+                on_ready(user_settings, user, relationships, guilds);
             } else if (type == "PRESENCE_UPDATE") {
                 qDebug() << QString::fromStdString(msg->get_payload());
             } else if (type == "TYPING_START") {
@@ -282,7 +284,7 @@ namespace discord {
     // Websocket events
     void Client::on_heartbeat() {}
     void Client::on_connect() {}
-    void Client::on_ready(User_Settings const&, User const&, Relationships const&) {}
+    void Client::on_ready(User_Settings const&, User const&, Relationships const&, Guilds const&) {}
     void Client::on_disconnect() {}
     void Client::on_websocket_error(Websocket_Error error, String const& message) {
         qDebug() << "websocket error: " << QString::fromStdString(message);

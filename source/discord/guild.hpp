@@ -7,6 +7,9 @@
 
 namespace discord {
     // https://discordapp.com/developers/docs/resources/guild#guild-object
+    //
+    // Undocumented fields
+    //    lazy - bool, nullable-optional
     struct Guild {
         Snowflake id;
         String name;
@@ -14,7 +17,9 @@ namespace discord {
         // Guild icon hash, nullable
         std::optional<std::string> icon;
         // Guild splash hash, nullable
+		// Wtf is that?!
         std::optional<std::string> splash;
+        std::optional<uint64_t> member_count;
         std::optional<uint64_t> permissions;
         std::optional<bool> owner;
 
