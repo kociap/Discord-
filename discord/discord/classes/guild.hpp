@@ -2,6 +2,7 @@
 #define DISCORD_GUILD_HPP
 
 #include "channel.hpp"
+#include "emoji.hpp"
 #include "nlohmann/json.hpp"
 #include "types.hpp"
 #include <optional>
@@ -13,6 +14,7 @@ namespace discord {
     //    lazy - bool, nullable-optional
     struct Guild {
         Channels channels;
+        Emojis emojis;
         Snowflake id;
         std::string name;
 		// Optional, although documentation says otherwise

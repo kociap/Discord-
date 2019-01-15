@@ -11,6 +11,7 @@ namespace discord {
     void from_json(nlohmann::json const& json, Guild& guild) {
         json.at("id").get_to(guild.id);
         json.at("name").get_to(guild.name);
+        json.at("emojis").get_to(guild.emojis);
 
         json::utils::get_nullable_optional_field(json, "icon", guild.icon);
         json::utils::get_nullable_optional_field(json, "splash", guild.splash);

@@ -15,6 +15,7 @@ set(SOURCE_FILES
     "${CMAKE_CURRENT_SOURCE_DIR}/private/usersettings.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/private/userguildsettings.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/private/channel.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/private/emoji.cpp"
     PARENT_SCOPE
 )
 
@@ -37,6 +38,7 @@ set(HEADER_FILES
     "${CMAKE_CURRENT_SOURCE_DIR}/classes/user.hpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/classes/usersettings.hpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/classes/userguildsettings.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/classes/emoji.hpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/utils/json.hpp"
     PARENT_SCOPE
 )
