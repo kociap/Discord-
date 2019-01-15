@@ -1,17 +1,29 @@
 #include "servericonwidget.hpp"
+#include "QDebug"
 #include "QPainter"
+#include "discord/client.hpp"
 
-ServerIconWidget::ServerIconWidget(QWidget* parent) : ServerIconWidget("", parent) {}
+ServerIconWidget::ServerIconWidget(QWidget* parent) : ServerIconWidget(nullptr, discord::Guild{}, parent) {}
 
-ServerIconWidget::ServerIconWidget(const QString& name, QWidget* parent) : QWidget(parent), name{name} {}
+ServerIconWidget::ServerIconWidget(discord::Client* client, discord::Guild const& guild, QWidget* parent)
+    : QWidget(parent), name(QString::fromStdString(guild.name)) {
+    auto iconData = client->get_guild_icon(guild, 128);
+
+    qDebug() << iconData.data.data();
+
+    if (icon.loadFromData(iconData.data.data(), "PNG")) {
+        qDebug() << "loaded icon";
+    }
+}
 
 QSize ServerIconWidget::sizeHint() const {
-    return QSize{75, 75};
+    return QSize{40, 40};
 }
 
 void ServerIconWidget::paintEvent(QPaintEvent* event) {
     QPainter painter{this};
 
-    painter.setBrush(Qt::yellow);
-    painter.drawRoundRect(rect(), 25, 25);
+    painter.setRenderHint(QPainter::Antialiasing);
+
+    painter.drawPixmap(rect(), icon);
 }
