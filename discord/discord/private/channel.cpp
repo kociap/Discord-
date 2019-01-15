@@ -1,4 +1,4 @@
-#include "channel.hpp"
+#include "classes/channel.hpp"
 
 #include "utils/json.hpp"
 

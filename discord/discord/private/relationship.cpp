@@ -1,12 +1,12 @@
-#include "relationship.hpp"
+#include "classes/relationship.hpp"
 
 namespace discord {
     Relationship_Type convert_to_enum(int type) {
         switch (type) {
-            case 1:
-                return Relationship_Type::friends;
-            default:
-                return Relationship_Type::friends;
+        case 1:
+            return Relationship_Type::friends;
+        default:
+            return Relationship_Type::friends;
         }
     }
 

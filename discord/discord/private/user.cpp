@@ -1,4 +1,4 @@
-#include "user.hpp"
+#include "classes/user.hpp"
 
 #include "utils/json.hpp"
 #include <string>

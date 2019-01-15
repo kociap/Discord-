@@ -1,0 +1,42 @@
+set(SOURCE_FILES
+    ${SOURCE_FILES}
+    "${CMAKE_CURRENT_SOURCE_DIR}/auth.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/client.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/gateway.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/urls.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/image.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/exception.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/private/activity.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/private/guild.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/private/message.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/private/presence.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/private/relationship.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/private/user.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/private/usersettings.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/private/userguildsettings.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/private/channel.cpp"
+    PARENT_SCOPE
+)
+
+set(HEADER_FILES
+    ${HEADER_FILES}
+    "${CMAKE_CURRENT_SOURCE_DIR}/auth.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/client.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/gateway.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/opcodes.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/types.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/urls.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/image.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/exception.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/classes/activity.hpp"      
+    "${CMAKE_CURRENT_SOURCE_DIR}/classes/channel.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/classes/guild.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/classes/message.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/classes/presence.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/classes/relationship.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/classes/user.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/classes/usersettings.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/classes/userguildsettings.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/utils/json.hpp"
+    PARENT_SCOPE
+)

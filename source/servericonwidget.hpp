@@ -2,7 +2,7 @@
 #define SERVERICONWIDGET_HPP
 
 #include "QPixmap"
-#include "discord/guild.hpp"
+#include "discord/classes/guild.hpp"
 #include <QWidget>
 
 namespace discord {

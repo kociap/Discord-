@@ -1,7 +1,7 @@
 #ifndef GUILDICON_HPP
 #define GUILDICON_HPP
 
-#include "source/discord/image.hpp"
+#include "discord/image.hpp"
 #include <QWidget>
 
 namespace Ui {

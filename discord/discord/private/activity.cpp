@@ -1,4 +1,4 @@
-#include "activity.hpp"
+#include "classes/activity.hpp"
 
 namespace discord {
     Activity Activity::from_json(nlohmann::json const& json) {

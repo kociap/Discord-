@@ -1,14 +1,14 @@
 #ifndef DISCORD_CLIENT_HPP
 #define DISCORD_CLIENT_HPP
 
-#include "channel.hpp"
-#include "data/usersettings.hpp"
-#include "guild.hpp"
+#include "classes/channel.hpp"
+#include "classes/usersettings.hpp"
+#include "classes/guild.hpp"
 #include "image.hpp"
-#include "message.hpp"
-#include "relationship.hpp"
+#include "classes/message.hpp"
+#include "classes/relationship.hpp"
 #include "types.hpp"
-#include "user.hpp"
+#include "classes/user.hpp"
 
 #ifdef _MSC_VER
 // Disable all warnings from websocketpp and asio

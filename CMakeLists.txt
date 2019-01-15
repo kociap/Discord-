@@ -52,14 +52,11 @@ set(QRC_FILES
 add_executable(${PROJECT_NAME} ${DISCORDPP_SRC} ${DISCORDPP_HEADERS} ${QRC_FILES})
 target_sources(${PROJECT_NAME} PUBLIC ${UI_FILES})
 
-# Add certain include dirs manually because compiler can't find them
-target_include_directories(${PROJECT_NAME} SYSTEM PUBLIC websocketpp asio/asio/include)
-
 # add generated include directory
 #target_compile_options(${PROJECT_NAME} PRIVATE -isystem ${PROJECT_NAME}_autogen/include)
 
 set(CMAKE_USE_OPENSSL ON CACHE BOOL "" FORCE) # OPENSSL_ROOT_DIR must be set manually
-if(CMAKE_USE_OPENSSL AND NOT OPENSSL_ROOT_DIR)
+if(TRUE OR CMAKE_USE_OPENSSL AND NOT OPENSSL_ROOT_DIR) # Disable temporarily
   message(FATAL_ERROR
     "Please define OPENSSL_ROOT_DIR as the path to your OpenSSL build"
   )
@@ -71,8 +68,36 @@ set(BUILD_TESTING CACHE BOOL OFF)
 add_subdirectory(websocketpp)
 add_subdirectory(json)
 add_subdirectory(rpp)
-add_subdirectory(source/discord)
+add_subdirectory(discord)
 add_subdirectory(source/widgets)
+
+# Other files one would want to edit that are not directly part of the SCE build but we want to appear in projects
+set(MISC_FILES
+  .clang-format
+  .gitignore
+  .travis.yml
+  CMakeLists.txt
+  README.md
+)
+add_custom_target(MISC_FILES
+  COMMENT "This target only exists to list files in IDEs"
+  SOURCES ${MISC_FILES} ${UI_FILES}
+)
+
+include("SourceGroupsFromPaths.cmake")
+source_groups_from_paths("${CMAKE_CURRENT_SOURCE_DIR}" ${DISCORDPP_SRC} ${DISCORDPP_HEADERS})
+
+# Add certain include dirs manually because compiler can't find them
+# A temporary hack because I don't want to move submodules yet
+target_include_directories(Discord_Wrapper SYSTEM PUBLIC websocketpp asio/asio/include)
+
+# Link executable
+set(LIBS_TO_LINK
+  Qt5::Widgets
+  Qt5::WebEngineWidgets
+  Discord_Wrapper
+)
+target_link_libraries(${PROJECT_NAME} ${LIBS_TO_LINK})
 
 #extra flags
 if ("${CMAKE_CXX_COMPILER_ID}" MATCHES "GNU" OR "${CMAKE_CXX_COMPILER_ID}" MATCHES "Clang")
@@ -136,28 +161,3 @@ elseif(MSVC)
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /I ${CMAKE_CURRENT_SOURCE_DIR}")
 endif()
 set(CMAKE_INCLUDE_CURRENT_DIR ON) #redundant, but required for Qt Creator to find generated files
-
-# Other files one would want to edit that are not directly part of the SCE build but we want to appear in projects
-set(MISC_FILES
-  .clang-format
-  .gitignore
-  .travis.yml
-  CMakeLists.txt
-  README.md
-)
-add_custom_target(MISC_FILES
-  COMMENT "This target only exists to list files in IDEs"
-  SOURCES ${MISC_FILES} ${UI_FILES}
-)
-
-include("SourceGroupsFromPaths.cmake")
-source_groups_from_paths("${CMAKE_CURRENT_SOURCE_DIR}" ${DISCORDPP_SRC} ${DISCORDPP_HEADERS})
-
-# Link executable
-set(LIBS_TO_LINK
-  Qt5::Widgets
-  Qt5::WebEngineWidgets
-  rpp
-  nlohmann_json::nlohmann_json
-)
-target_link_libraries(${PROJECT_NAME} ${LIBS_TO_LINK})

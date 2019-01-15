@@ -8,7 +8,6 @@
 #include "rpp/rpp.hpp"
 #include "websocketpp/connection.hpp"
 
-#include <QDebug>
 #include <map>
 
 // Timer
@@ -230,10 +229,8 @@ namespace discord {
                 current_user = user;
                 on_ready(user_settings, user, relationships, dms, guilds);
             } else if (type == "PRESENCE_UPDATE") {
-                qDebug() << QString::fromStdString(msg->get_payload());
             } else if (type == "TYPING_START") {
             } else if (type == "MESSAGE_CREATE") {
-                qDebug() << QString::fromStdString(msg->get_payload());
                 on_message(Message::from_json(parsed_msg.at("d")));
             }
         } else {
@@ -265,7 +262,6 @@ namespace discord {
     }
 
     void Client::heartbeat() {
-        qDebug() << "heartbeat";
         if (!heartbeat_ack) {
             // TODO
             // No ack, terminate connection
@@ -285,13 +281,9 @@ namespace discord {
     // Websocket events
     void Client::on_heartbeat() {}
     void Client::on_connect() {}
-    void Client::on_ready(User_Settings const&, User const&, Relationships const&, Guilds const&) {}
+    void Client::on_ready(User_Settings const&, User const&, Relationships const&, Channels const&, Guilds const&) {}
     void Client::on_disconnect() {}
-    void Client::on_websocket_error(Websocket_Error error, String const& message) {
-        qDebug() << "websocket error: " << QString::fromStdString(message);
-    }
-    void Client::on_websocket_message(websocketpp::connection_hdl handle, websocketpp::connection<websocketpp::config::asio_tls_client>::message_ptr msg) {
-        qDebug() << "Websocket message:" << QString::fromStdString(msg->get_payload());
-    }
+    void Client::on_websocket_error(Websocket_Error error, String const& message) {}
+    void Client::on_websocket_message(websocketpp::connection_hdl handle, websocketpp::connection<websocketpp::config::asio_tls_client>::message_ptr msg) {}
 
 } // namespace discord

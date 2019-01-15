@@ -1,4 +1,4 @@
-#include "guild.hpp"
+#include "classes/guild.hpp"
 
 #include "utils/json.hpp"
 

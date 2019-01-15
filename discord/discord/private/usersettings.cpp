@@ -1,4 +1,4 @@
-#include "usersettings.hpp"
+#include "classes/usersettings.hpp"
 
 namespace discord {
     void from_json(nlohmann::json const& json, User_Settings& settings) {

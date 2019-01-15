@@ -1,4 +1,4 @@
-#include "message.hpp"
+#include "classes/message.hpp"
 
 namespace discord {
     Message Message::from_json(nlohmann::json const& json) {
@@ -14,6 +14,6 @@ namespace discord {
         json.at("timestamp").get_to(msg.timestamp);
         if (json.count("guild_id")) {
             json.at("guild_id").get_to(msg.guild_id);
-		}
+        }
     }
 } // namespace discord

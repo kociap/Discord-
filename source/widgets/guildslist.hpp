@@ -2,7 +2,7 @@
 #define GUILDSLIST_HPP
 
 #include "guildicon.hpp"
-#include "source/discord/guild.hpp"
+#include "discord/classes/guild.hpp"
 #include <QWidget>
 #include <vector>
 

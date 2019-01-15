@@ -4,8 +4,6 @@
 #include "nlohmann/json.hpp"
 #include "rpp/rpp.hpp"
 
-#include <QDebug>
-
 namespace discord {
     namespace auth {
         std::variant<String, Login_error> login(String const& email, String const& password) {

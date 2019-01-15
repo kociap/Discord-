@@ -1,5 +1,5 @@
 #include "guildslist.hpp"
-#include "source/discord/urls.hpp"
+#include "discord/urls.hpp"
 #include "ui_guildslist.h"
 
 Guilds_list::Guilds_list(QWidget* parent) : QWidget(parent), ui(new Ui::Guilds_list) {
