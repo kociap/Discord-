@@ -1,5 +1,6 @@
 #include "servericonwidget.hpp"
 #include "QDebug"
+#include "QFile"
 #include "QPainter"
 #include "discord/client.hpp"
 
@@ -8,12 +9,10 @@ ServerIconWidget::ServerIconWidget(QWidget* parent) : ServerIconWidget(nullptr, 
 ServerIconWidget::ServerIconWidget(discord::Client* client, discord::Guild const& guild, QWidget* parent)
     : QWidget(parent), name(QString::fromStdString(guild.name)) {
     auto iconData = client->get_guild_icon(guild, 128);
-
-    qDebug() << iconData.data.data();
-
-    if (icon.loadFromData(iconData.data.data(), "PNG")) {
-        qDebug() << "loaded icon";
-    }
+    QImage img;
+    img.loadFromData(reinterpret_cast<const uchar*>(iconData.data.c_str()), static_cast<int>(iconData.data.size()));
+    img.save(QString::fromStdString(guild.name) + ".png");
+    icon = QPixmap::fromImage(img);
 }
 
 QSize ServerIconWidget::sizeHint() const {
