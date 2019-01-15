@@ -33,6 +33,12 @@ namespace discord {
 
     Client::~Client() {}
 
+    static void handle_request_error(rpp::Response const& res) {
+        if (res.status >= 400) {
+            throw Http_Request_Failed(res.status, res.text);
+        }
+    }
+
     User Client::get_me() {
         rpp::Headers headers({{"Authorization", token}});
         rpp::Request req;

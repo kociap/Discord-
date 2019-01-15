@@ -1,6 +1,7 @@
 #ifndef GUILDICON_HPP
 #define GUILDICON_HPP
 
+#include "source/discord/image.hpp"
 #include <QWidget>
 
 namespace Ui {
@@ -11,7 +12,7 @@ class Guild_icon : public QWidget {
     Q_OBJECT
 
 public:
-    explicit Guild_icon(QWidget* parent);
+    explicit Guild_icon(QWidget* parent, discord::Image const& icon);
     Guild_icon(Guild_icon const&);
     Guild_icon(Guild_icon&&);
     ~Guild_icon();
