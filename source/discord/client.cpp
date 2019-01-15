@@ -226,8 +226,9 @@ namespace discord {
                 User user = data.at("user");
                 Relationships relationships = data.at("relationships");
                 Guilds guilds = data.at("guilds");
+                Channels dms = data.at("private_channels");
                 current_user = user;
-                on_ready(user_settings, user, relationships, guilds);
+                on_ready(user_settings, user, relationships, dms, guilds);
             } else if (type == "PRESENCE_UPDATE") {
                 qDebug() << QString::fromStdString(msg->get_payload());
             } else if (type == "TYPING_START") {
