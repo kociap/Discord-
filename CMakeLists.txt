@@ -56,7 +56,7 @@ target_sources(${PROJECT_NAME} PUBLIC ${UI_FILES})
 #target_compile_options(${PROJECT_NAME} PRIVATE -isystem ${PROJECT_NAME}_autogen/include)
 
 set(CMAKE_USE_OPENSSL ON CACHE BOOL "" FORCE) # OPENSSL_ROOT_DIR must be set manually
-if(TRUE OR CMAKE_USE_OPENSSL AND NOT OPENSSL_ROOT_DIR) # Disable temporarily
+if(FALSE AND CMAKE_USE_OPENSSL AND NOT OPENSSL_ROOT_DIR) # Disable temporarily
   message(FATAL_ERROR
     "Please define OPENSSL_ROOT_DIR as the path to your OpenSSL build"
   )
